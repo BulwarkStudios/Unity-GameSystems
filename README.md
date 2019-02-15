@@ -36,26 +36,26 @@ So when a layer is removed, the old contexts become active again.
 
 Some API reference:
 
-Load contexts: See the GameSetup class
+#### Load contexts: See the GameSetup class
 ```
 GameContextSystem.Load();
 ```
 
-Custom context: 
+#### Custom context: 
 See the GameContextMainMenu class
 
-Set a context: See the MainMenuInitialize class
+#### Set a context: See the MainMenuInitialize class
 ```
 GameContextSystem.SetContext(GameContextMainMenu.Instance, GameContextSystem.INDEX.MAIN);
 GameContextSystem.SetContext(GameContextMainMenuCustom.Instance, GameContextSystem.INDEX.SUB1);
 ```
 
-Remove a context:
+#### Remove a context:
 ```
 GameContextSystem.SetContext(GameContextNone.Instance, GameContextSystem.INDEX.MAIN);
 ```
 
-Set a context and add a layer: See the WindowSettings class
+#### Set a context and add a layer: See the WindowSettings class
 ```
 GameContextSystem.AddLayer(GameContextSettings.Instance, GameContextSystem.INDEX.MAIN);
 or
@@ -63,7 +63,7 @@ GameContextSystem.AddLayer();
 GameContextSystem.SetContext(GameContextSettings.Instance, GameContextSystem.INDEX.MAIN);
 ```
 
-Remove context layer: See the WindowSettings class
+#### Remove context layer: See the WindowSettings class
 ```
 GameContextSystem.RemoveLayer();
 ```
@@ -80,23 +80,23 @@ Additionally the system can constrain the listening of an event with one or more
 
 Some API reference:
 
-Load events: See the GameSetup class
+#### Load events: See the GameSetup class
 ```
 GameEventSystem.Load();
 ```
 
-Listen an event: See the MainMenu class
+#### Listen an event: See the MainMenu class
 ```
 GameEventNewGame.Listen(this, NewGame).AddGameContextConstraint(GameContextMainMenu.Instance);
 // NewGame is executed when the event "GameEventNewGame" is triggered but only if the context "GameContextMainMenu" is active
 ```
 
-Unlisten an event: See the MainMenu class
+#### Unlisten an event: See the MainMenu class
 ```
 GameEventNewGame.Unlisten(this, NewGame);
 ```
 
-Trigger an event: See the MainMenu class
+#### Trigger an event: See the MainMenu class
 ```
 GameEventNewGame.Trigger();
 ```
