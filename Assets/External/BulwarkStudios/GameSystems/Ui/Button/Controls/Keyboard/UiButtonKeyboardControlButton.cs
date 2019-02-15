@@ -8,7 +8,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// Need the control active?
         /// </summary>
         [SerializeField]
-        private bool needControlActive;
+        private bool needControlActive = false;
 
         /// <summary>
         /// Key code

@@ -12,7 +12,7 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <summary>
         /// Deactive the logs?
         /// </summary>
-        [SerializeField] private bool deactiveLogs;
+        [SerializeField] private bool deactiveLogs = false;
 
         private bool isLoaded = false;
 
