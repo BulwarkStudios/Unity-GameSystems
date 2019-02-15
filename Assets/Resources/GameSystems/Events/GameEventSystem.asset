@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_GeneratorAsset: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: bf55e9321a8642fd840c704a237c0c57, type: 3}
+  m_Name: GameEventSystem
+  m_EditorClassIdentifier: 
+  availableEvents:
+  - {fileID: 11400000, guid: 235827d8b6450c243bbb2518fcb4d6f3, type: 2}
+  - {fileID: 11400000, guid: 96c46725b0c5f4d41a87bf65720fac3d, type: 2}
