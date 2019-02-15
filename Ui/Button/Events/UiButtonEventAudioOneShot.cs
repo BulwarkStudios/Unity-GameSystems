@@ -7,7 +7,7 @@ namespace Mechanicus.UI {
 
     public class UiButtonEventAudioOneShot : UiButtonEvent<UiButtonEventDataAudioOneShot> {
 
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource audioSource = null;
 
         /// <summary>
         /// Event triggered

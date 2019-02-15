@@ -73,7 +73,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// Disable the mouse?
         /// </summary>
         [SerializeField]
-        private bool disableMouse;
+        private bool disableMouse = false;
 
         /// <summary>
         /// Cursor over?
