@@ -35,7 +35,7 @@ namespace BulwarkStudios.Tests {
             }
 
             // Set a context
-            GameContextSystem.SetContext(GameContextMainMenu.Instance, 0);
+            GameContextSystem.SetContext(GameContextMainMenu.Instance, GameContextSystem.INDEX.MAIN);
 
         }
 

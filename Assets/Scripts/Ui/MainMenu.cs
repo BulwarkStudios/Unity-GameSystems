@@ -30,6 +30,13 @@ namespace BulwarkStudios.Tests {
             // Reset the state
             //overridedButton.SetOverridedState(null);
 
+            // Trigger test event
+            GameEventTest0.Trigger();
+            GameEventTest1.Trigger(10);
+            GameEventTest2.Trigger(20, 20f);
+            GameEventTest3.Trigger(30, 30f, 30);
+            GameEventTest4.Trigger(40, 40f, 40, 40);
+
         }
 
         #endregion
@@ -71,7 +78,7 @@ namespace BulwarkStudios.Tests {
         /// </summary>
         private void NewGame() {
 
-            GameContextSystem.SetContext(GameContextNewGame.Instance, 0);
+            GameContextSystem.SetContext(GameContextNewGame.Instance, GameContextSystem.INDEX.MAIN);
 
         }
 
