@@ -103,7 +103,24 @@ GameEventNewGame.Trigger();
 
 # Libraries
 
-TODO
+In Mechanicus, we have a "Config" scene that contains a lot of data container objects. We can access to a data using the Service Locator pattern. The issue here was, if you or a member of team wanted to add a new data, the scene has to be open and saved. That cause sometimes conflicts or merge issue with Git.
+
+As the GameContext system et the GameEvent system, I use the same Singleton ScriptableObject pattern. 
+A library has to extend GameLibrary<T>, the system will find that class automatically and will create an associated ScriptableObject located in: Resources/GameSystems/Libraries/List/YourLibraryName.asset
+  
+The team members can now add data directly in the project window, without opening a scene and reducing the amount of conflicts in the source control system.
+
+Some API reference:
+
+#### Load libraries: See the GameSetup class
+```
+GameLibrarySystem.Load();
+```
+
+#### Get a library: See the MainMenu class
+```
+GameLibraryUi.Instance.testButton
+```
 
 # Logs
 
