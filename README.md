@@ -14,7 +14,7 @@ Developped with Unity 2019.1.0a14
 
 # Unity-GameSystems
 
-Unity-GameSystems is a set of tools made after the release of Warhammer 40.000: Mechanicus ( https://store.steampowered.com/app/673880/Warhammer_40000_Mechanicus/ ) to fix and clean design patterns used in the game.
+Unity-GameSystems is a set of tools made after the release of Warhammer 40.000: Mechanicus (https://store.steampowered.com/app/673880/Warhammer_40000_Mechanicus/) to fix and clean design patterns used in the game.
 
 # Contexts
 
@@ -124,7 +124,32 @@ GameLibraryUi.Instance.testButton
 
 # Logs
 
-TODO
+The Debug class in Unity is great, you can active or deactive all logs with a simple line of code:
+```
+Debug.unityLogger.logEnabled = false;
+```
+But there is no way (or I didn't find it) to prevent the compilation of Debug.Log calls. A simple Debug.Log("test") with a logEnabled = false will still allocate some memories.
+
+So a solution to that is to wrap the Unity Debug log system with the [Conditional] attribute and compile the log calls only if the "Scripting Define Symbols" contains the "DEBUG_BUILD" constant.
+
+Internally, we use Editor Console Pro (https://assetstore.unity.com/packages/tools/utilities/editor-console-pro-11889) and I wanted to take advantage of their custom filter feature. 
+In this log system, you can tag (or not) every logs you want. This will add the tag in the console before the object you wanted to log.
+
+Some API reference:
+
+#### Initialize the log system with a specific config: See the GameSetup class
+```
+GameLogSystem.Initialize(new LogConfigTest());
+```
+
+#### Log something: See the MainMenu class
+Log.Info(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+Log.Warning(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+Log.Exception(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+Log.Error(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+
+#### Setup the log system: See the LogConfigTest class
+Add tags to the enum "TAG" and active or deactive those tags in the "SetupTags" method.
 
 # UI
 
