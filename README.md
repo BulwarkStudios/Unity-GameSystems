@@ -103,7 +103,7 @@ GameEventNewGame.Trigger();
 
 # Libraries
 
-In Mechanicus, we have a "Config" scene that contains a lot of data container objects. We can access to a data using the Service Locator pattern. The issue here was, if you or a member of team wanted to add a new data, the scene has to be open and saved. That cause sometimes conflicts or merge issue with Git.
+In Mechanicus, we have a "Config" scene that contains a lot of data container objects. We can access to a data using the Service Locator pattern. The issue here was, if you or a member of team wanted to add a new data, the scene has to be open and saved. That may cause conflicts or merge issue with Git.
 
 As the GameContext system et the GameEvent system, I use the same Singleton ScriptableObject pattern. 
 A library has to extend GameLibrary<T>, the system will find that class automatically and will create an associated ScriptableObject located in: Resources/GameSystems/Libraries/List/YourLibraryName.asset
@@ -153,14 +153,14 @@ Log.Error(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
 #### Setup the log system: See the LogConfigTest class
 Add tags to the enum "TAG" and active or deactive those tags in the "SetupTags" method.
 
-# UI
+# UI Button
 
 We had a lot of trouble when designers or programmers wanted to setup the different states of a Button.
 And when we started to implement keyboard shortcut and gamepad control it was a nightmare.
 
-This is really a system on it's own, but more a redesign of the "Button" class from Unity.
+This is not really a system on it's own, but more a redesign of the "Button" class from Unity.
 Add the "UiButton" script to any game object to start making a button. By clicking on the different state in the inspector, the scene will preview and update the button directly in the editor.
-Add any classes which extend "UiButtonEffect" to change the looks of the button for every possible state.
+Add any classes which extend "UiButtonEffect" to change the looks of the button for every possible states.
 Add any classes which extend "UiButtonEvent" to add behavior when specific event are triggered.
 Add any classes which extend "UiButtonConstraint" to control when the button is active or not.
 
