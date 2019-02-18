@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56991ee25ad7ae44fbbdae69ee4a0180, type: 3}
   m_Name: GameLibrarySystem
   m_EditorClassIdentifier: 
-  availableLibraries: []
+  availableLibraries:
+  - {fileID: 11400000, guid: 7d56441c1b7d3e244b336323f34174ca, type: 2}

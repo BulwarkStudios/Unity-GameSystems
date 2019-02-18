@@ -14,5 +14,11 @@ MonoBehaviour:
   m_Name: GameEventSystem
   m_EditorClassIdentifier: 
   availableEvents:
-  - {fileID: 11400000, guid: 235827d8b6450c243bbb2518fcb4d6f3, type: 2}
-  - {fileID: 11400000, guid: 96c46725b0c5f4d41a87bf65720fac3d, type: 2}
+  - {fileID: 11400000, guid: 4302ade7f142b614ab913e91083c29f8, type: 2}
+  - {fileID: 11400000, guid: 1cca35b314d674a46bc06cdf2fa23f4e, type: 2}
+  - {fileID: 11400000, guid: 5a6dc2ee659af6f4f82d1be86b2258ad, type: 2}
+  - {fileID: 11400000, guid: 7134effb1fd92e940a510fe2276c1388, type: 2}
+  - {fileID: 11400000, guid: f2ad26a08678fd745a1edd9fb50c14bb, type: 2}
+  - {fileID: 11400000, guid: 6cfd003df273e09409a5b305b98bc172, type: 2}
+  - {fileID: 11400000, guid: 70403ec473e11a2439b2241bb5c03a67, type: 2}
+  - {fileID: 11400000, guid: 0192efb6b7e5f1545969e06d1d2e5357, type: 2}

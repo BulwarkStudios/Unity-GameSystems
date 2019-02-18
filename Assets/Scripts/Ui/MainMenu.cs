@@ -22,7 +22,10 @@ namespace BulwarkStudios.Tests {
         void IInitializable.Initialize() {
 
             // Get a library
-            Log.Info(GameLibraryUi.Instance.testButton);
+            Log.Info(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+            Log.Warning(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+            //Log.Exception(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+            //Log.Error(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
 
             // Test overrided states
             overridedButton.SetOverridedState(UiButton.STATE.CUSTOM1);
