@@ -143,17 +143,28 @@ GameLogSystem.Initialize(new LogConfigTest());
 ```
 
 #### Log something: See the MainMenu class
+```
 Log.Info(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
 Log.Warning(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
 Log.Exception(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
 Log.Error(GameLibraryUi.Instance.testButton, LogConfigTest.TAG.TASK);
+```
 
 #### Setup the log system: See the LogConfigTest class
 Add tags to the enum "TAG" and active or deactive those tags in the "SetupTags" method.
 
 # UI
 
-TODO
+We had a lot of trouble when designers or programmers wanted to setup the different states of a Button.
+And when we started to implement keyboard shortcut and gamepad control it was a nightmare.
+
+This is really a system on it's own, but more a redesign of the "Button" class from Unity.
+Add the "UiButton" script to any game object to start making a button. By clicking on the different state in the inspector, the scene will preview and update the button directly in the editor.
+Add any classes which extend "UiButtonEffect" to change the looks of the button for every possible state.
+Add any classes which extend "UiButtonEvent" to add behavior when specific event are triggered.
+Add any classes which extend "UiButtonConstraint" to control when the button is active or not.
+
+See the MainMenu scene.
 
 # Folder Architecture Convention
 https://docs.google.com/document/d/1Vr-OTl4bF2BxqRWNAUzqmarMXYzwkCxpPjY25PfPKHo/edit?usp=sharing
