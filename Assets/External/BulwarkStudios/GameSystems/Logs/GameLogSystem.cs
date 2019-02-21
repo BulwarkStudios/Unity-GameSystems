@@ -80,7 +80,7 @@ namespace BulwarkStudios.GameSystems.Logs {
             }
 
             // Log
-            config.GetLogger().Log(type, tag, message, null);
+            config.GetLogger().Log(type, "[" + tag + "]", message, null);
 
         }
 
