@@ -367,6 +367,53 @@ namespace BulwarkStudios.GameSystems.Contexts {
         }
 
         /// <summary>
+        /// Get a string containing all contexts
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLogStringContexts() {
+
+            string data = string.Empty;
+
+            data += "Context initialized: " + Instance.initialized + "\n";
+            data += "Context current layer: " + Instance.layer + "\n";
+
+            data += "Contexts: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.contexts == null || Instance.contexts.Count < (int)index) {
+                    continue;
+                }
+                data += index + ": " + Instance.contexts[(int)index] + "\n";
+            }
+
+            data += "Layer 1: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer1Contexts == null || Instance.layer1Contexts.Count < (int)index) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer1Contexts[(int)index] + "\n";
+            }
+
+            data += "Layer 2: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer2Contexts == null || Instance.layer2Contexts.Count < (int)index) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer2Contexts[(int)index] + "\n";
+            }
+
+            data += "Layer 3: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer3Contexts == null || Instance.layer3Contexts.Count < (int)index) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer3Contexts[(int)index] + "\n";
+            }
+
+            return data;
+
+        }
+
+        /// <summary>
         /// Update the context
         /// </summary>
         [Button(nameof(EditorUpdateContext), ButtonSizes.Medium)]
