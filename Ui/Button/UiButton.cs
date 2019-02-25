@@ -98,7 +98,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <summary>
         /// An event has been triggered
         /// </summary>
-        public event System.Action<UiButton, EVENT> OnEventTriggered;
+        public event System.Action<UiButton, EVENT, BaseEventData> OnEventTriggered;
 
         #region Implementation of IPreparable
 
@@ -292,7 +292,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IDeselectHandler.OnDeselect(BaseEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_DESELECT);
+            OnEventTriggered?.Invoke(this, EVENT.ON_DESELECT, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -305,7 +305,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IMoveHandler.OnMove(AxisEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_MOVE);
+            OnEventTriggered?.Invoke(this, EVENT.ON_MOVE, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -320,7 +320,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_CLICK);
+            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_CLICK, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -337,7 +337,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_DOWN);
+            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_DOWN, eventData);
 
             cursorIsDown = true;
 
@@ -356,7 +356,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_ENTER);
+            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_ENTER, eventData);
 
             cursorIsOver = true;
 
@@ -380,7 +380,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_EXIT);
+            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_EXIT, eventData);
 
             cursorIsOver = false;
 
@@ -399,7 +399,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_UP);
+            OnEventTriggered?.Invoke(this, EVENT.ON_POINTER_UP, eventData);
 
             cursorIsDown = false;
 
@@ -423,7 +423,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return;
             }
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_SELECT);
+            OnEventTriggered?.Invoke(this, EVENT.ON_SELECT, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -436,7 +436,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void ISubmitHandler.OnSubmit(BaseEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_SUBMIT);
+            OnEventTriggered?.Invoke(this, EVENT.ON_SUBMIT, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -449,7 +449,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IInitializePotentialDragHandler.OnInitializePotentialDrag(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_INITIALIZE_POTENTIAL_DRAG);
+            OnEventTriggered?.Invoke(this, EVENT.ON_INITIALIZE_POTENTIAL_DRAG, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -461,7 +461,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_BEGIN_DRAG);
+            OnEventTriggered?.Invoke(this, EVENT.ON_BEGIN_DRAG, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -473,7 +473,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IDragHandler.OnDrag(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_DRAG);
+            OnEventTriggered?.Invoke(this, EVENT.ON_DRAG, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -485,7 +485,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IEndDragHandler.OnEndDrag(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_END_DRAG);
+            OnEventTriggered?.Invoke(this, EVENT.ON_END_DRAG, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -497,7 +497,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IDropHandler.OnDrop(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_DROP);
+            OnEventTriggered?.Invoke(this, EVENT.ON_DROP, eventData);
 
             if (!IsInteractable()) {
                 return;
@@ -509,7 +509,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         void IScrollHandler.OnScroll(PointerEventData eventData) {
 
-            OnEventTriggered?.Invoke(this, EVENT.ON_SCROLL);
+            OnEventTriggered?.Invoke(this, EVENT.ON_SCROLL, eventData);
 
             if (!IsInteractable()) {
                 return;

@@ -1,5 +1,6 @@
 ﻿using BulwarkStudios.GameSystems.Ui;
 using Sirenix.OdinInspector;
+using UnityEngine.EventSystems;
 
 namespace Mechanicus.UI {
 
@@ -11,7 +12,7 @@ namespace Mechanicus.UI {
         /// <param name="data"></param>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        protected override void EventTriggered(UiButtonEventDataSample data, UiButton button, UiButton.EVENT evt) {
+        protected override void EventTriggered(UiButtonEventDataSample data, UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
 
 
         }

@@ -2,6 +2,7 @@
 using BulwarkStudios.GameSystems.Ui;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Mechanicus.UI {
 
@@ -15,13 +16,11 @@ namespace Mechanicus.UI {
         /// <param name="data"></param>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        protected override void EventTriggered(UiButtonEventDataAudioOneShot data, UiButton button, UiButton.EVENT evt) {
+        protected override void EventTriggered(UiButtonEventDataAudioOneShot data, UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
 
             if (audioSource == null || data.audioClip == null) {
                 return;
             }
-
-            GameLogSystem.Info("UiButtonEventAudioOneShot " + data.audioClip.name);
 
             audioSource.PlayOneShot(data.audioClip);
 
