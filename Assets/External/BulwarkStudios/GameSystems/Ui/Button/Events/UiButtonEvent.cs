@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace BulwarkStudios.GameSystems.Ui {
 
@@ -139,12 +140,13 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// </summary>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        private void OnEventTriggered(UiButton button, UiButton.EVENT evt) {
+        /// <param name="eventData"></param>
+        private void OnEventTriggered(UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
             T data = GetData(button, evt);
             if (data == null) {
                 return;
             }
-            EventTriggered(data, button, evt);
+            EventTriggered(data, button, evt, eventData);
         }
 
         /// <summary>
@@ -244,7 +246,8 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <param name="data"></param>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        protected abstract void EventTriggered(T data, UiButton button, UiButton.EVENT evt);
+        /// <param name="eventData"></param>
+        protected abstract void EventTriggered(T data, UiButton button, UiButton.EVENT evt, BaseEventData eventData);
 
     }
 
