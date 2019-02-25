@@ -176,6 +176,9 @@ namespace BulwarkStudios.GameSystems.Ui {
         public bool ConstraintsValid() {
             
             foreach (UiButtonConstraint constraint in GetComponents<UiButtonConstraint>()) {
+                if (!constraint.enabled) {
+                    continue;
+                }
                 if (!constraint.IsValid()) {
                     return false;
                 }
