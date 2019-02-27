@@ -748,12 +748,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 876b46ba15a2d8c4a9668ae7de08a08a,
         type: 2}
-    - target: {fileID: 1491750249127146802, guid: c122152d9e05fe3499ed03a20a5f32cb,
-        type: 3}
-      propertyPath: triggerEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 1cca35b314d674a46bc06cdf2fa23f4e,
-        type: 2}
     - target: {fileID: 7284651649027660899, guid: c122152d9e05fe3499ed03a20a5f32cb,
         type: 3}
       propertyPath: newText
@@ -779,6 +773,12 @@ PrefabInstance:
       propertyPath: m_inputSource
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1491750249127146802, guid: c122152d9e05fe3499ed03a20a5f32cb,
+        type: 3}
+      propertyPath: triggerEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cca35b314d674a46bc06cdf2fa23f4e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c122152d9e05fe3499ed03a20a5f32cb, type: 3}
 --- !u!1001 &587339757
@@ -1375,7 +1375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857524202}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 333461627}
@@ -2712,12 +2712,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f68337ad3ce893c448574c5525d97511,
         type: 2}
-    - target: {fileID: 1491750249127146802, guid: c122152d9e05fe3499ed03a20a5f32cb,
-        type: 3}
-      propertyPath: triggerEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 235827d8b6450c243bbb2518fcb4d6f3,
-        type: 2}
     - target: {fileID: 7284651649027660899, guid: c122152d9e05fe3499ed03a20a5f32cb,
         type: 3}
       propertyPath: newText
@@ -2753,6 +2747,12 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 22
       objectReference: {fileID: 0}
+    - target: {fileID: 1491750249127146802, guid: c122152d9e05fe3499ed03a20a5f32cb,
+        type: 3}
+      propertyPath: triggerEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 235827d8b6450c243bbb2518fcb4d6f3,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c122152d9e05fe3499ed03a20a5f32cb, type: 3}
 --- !u!1001 &1364421529
@@ -4010,6 +4010,11 @@ PrefabInstance:
       propertyPath: m_inputSource
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1536597107298774881, guid: 485835bf6a908d34b8fd7de59a44754c,
+        type: 3}
+      propertyPath: updateSprite
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 485835bf6a908d34b8fd7de59a44754c, type: 3}
 --- !u!224 &4773477714409087981 stripped
@@ -4215,7 +4220,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -4297,26 +4302,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateColor: 1
-    color: {r: 0, g: 0, b: 0, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 1}
   pressed:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateColor: 1
     color: {r: 0.59400004, g: 0.59400004, b: 0.59400004, a: 1}
   custom1:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   text: {fileID: 5955904173462337812}
   updateText: 1
   newText: Overrided state Custom 1
+  updateColor: 1
 --- !u!114 &5955904174378578099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4331,36 +4331,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: c40ced6e45b82c84c8244e856a6129d7, type: 3}
-    updateColor: 0
     color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   pressed:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: d349446fd6a25a64c923055c20d82179, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom1:
-    updateSprite: 1
-    sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 1
-    color: {r: 0.27955222, g: 1, b: 0, a: 1}
+    sprite: {fileID: 21300000, guid: c40ced6e45b82c84c8244e856a6129d7, type: 3}
+    color: {r: 0, g: 1, b: 0.75165296, a: 1}
   custom2:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 1
     color: {r: 0.87214375, g: 0, b: 1, a: 1}
   image: {fileID: 5955904174475460984}
+  updateSprite: 1
+  updateColor: 1
 --- !u!224 &5955904174378578108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4498,7 +4488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87214375, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

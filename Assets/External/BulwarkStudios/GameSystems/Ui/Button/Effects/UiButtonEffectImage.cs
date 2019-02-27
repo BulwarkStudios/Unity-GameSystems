@@ -13,6 +13,18 @@ namespace BulwarkStudios.GameSystems.Ui {
         private Image image = null;
 
         /// <summary>
+        /// Update the sprite?
+        /// </summary>
+        [SerializeField]
+        private bool updateSprite = false;
+
+        /// <summary>
+        /// Update the color?
+        /// </summary>
+        [SerializeField]
+        private bool updateColor = false;
+
+        /// <summary>
         /// Preview
         /// </summary>
         /// <param name="state"></param>
@@ -34,12 +46,12 @@ namespace BulwarkStudios.GameSystems.Ui {
             UiButtonEffectDataImage dataState = GetButtonUpdate(state);
 
             // Update the sprite
-            if (dataState.updateSprite) {
+            if (updateSprite) {
                 image.sprite = dataState.sprite;
             }
 
             // Update the color
-            if (dataState.updateColor) {
+            if (updateColor) {
                 image.color = dataState.color;
             }
 
@@ -59,28 +71,24 @@ namespace BulwarkStudios.GameSystems.Ui {
     public class UiButtonEffectDataImage : UiButtonEffectData {
 
         /// <summary>
-        /// Update the sprite?
-        /// </summary>
-        [ToggleGroup(nameof(updateSprite), 0, "Update sprite", CollapseOthersOnExpand = false)]
-        public bool updateSprite = false;
-
-        /// <summary>
         /// New sprite
         /// </summary>
-        [ToggleGroup(nameof(updateSprite), CollapseOthersOnExpand = false)]
+        [ShowIf(nameof(CheckSprite), false)]
         public Sprite sprite = null;
-
-        /// <summary>
-        /// Update the color?
-        /// </summary>
-        [ToggleGroup(nameof(updateColor), 0, "Update color", CollapseOthersOnExpand = false)]
-        public bool updateColor = false;
 
         /// <summary>
         /// New color
         /// </summary>
-        [ToggleGroup(nameof(updateColor), CollapseOthersOnExpand = false)]
+        [ShowIf(nameof(CheckColor), false)]
         public Color color = Color.white;
+
+        private bool CheckSprite() {
+            return CheckCondition("updateSprite");
+        }
+
+        private bool CheckColor() {
+            return CheckCondition("updateColor");
+        }
 
     }
 

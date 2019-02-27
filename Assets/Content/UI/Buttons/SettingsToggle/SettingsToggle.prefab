@@ -266,36 +266,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0.29411766, b: 0.30980393, a: 1}
   highlighted:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0.13817194, g: 0.41002923, b: 0.4245283, a: 1}
   pressed:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0.29411766, b: 0.30980393, a: 1}
   disabled:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0.29411766, b: 0.30980393, a: 1}
   custom1:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   image: {fileID: 8543816450725492356}
+  updateSprite: 0
+  updateColor: 0
 --- !u!114 &3212711916477647022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,36 +563,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0, b: 0, a: 1}
   highlighted:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0.4117647, b: 0.43529412, a: 1}
   pressed:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0.4117647, b: 0.43529412, a: 1}
   disabled:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 1
     color: {r: 0, g: 0, b: 0, a: 1}
   custom1:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   image: {fileID: 8543816450680660749}
+  updateSprite: 0
+  updateColor: 1
 --- !u!114 &1048269285542940164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,7 +885,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c5b73e6c353c4ca49a4c77fff00208b3, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

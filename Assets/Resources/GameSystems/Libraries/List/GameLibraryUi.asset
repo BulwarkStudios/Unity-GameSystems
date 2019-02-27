@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e2032a1d1345b7bd36797b72396302, type: 3}
   m_Name: GameLibraryUi
   m_EditorClassIdentifier: 
-  testButton: {fileID: 0}
+  testButton: {fileID: 1536597107298774895, guid: 485835bf6a908d34b8fd7de59a44754c,
+    type: 3}

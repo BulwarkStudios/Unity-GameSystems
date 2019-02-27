@@ -149,36 +149,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: c40ced6e45b82c84c8244e856a6129d7, type: 3}
-    updateColor: 0
     color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   pressed:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 0074997db26008348b1109a276519e07, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: d349446fd6a25a64c923055c20d82179, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom1:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   image: {fileID: 1536597107351625386}
+  updateSprite: 1
+  updateColor: 1
 --- !u!114 &1536597107298774880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,26 +183,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateColor: 1
     color: {r: 0, g: 0, b: 0, a: 1}
   pressed:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateColor: 1
     color: {r: 0.59400004, g: 0.59400004, b: 0.59400004, a: 1}
   custom1:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   text: {fileID: 1536597108483385030}
   updateText: 0
   newText: 
+  updateColor: 1
 --- !u!114 &6341844489627236360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,7 +413,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 
+  m_text: TEXT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b3f70a05b6ddc6479e4af9363c79c4c, type: 2}
   m_sharedMaterial: {fileID: 21348309073195796, guid: 0b3f70a05b6ddc6479e4af9363c79c4c,
@@ -498,20 +483,20 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1536597108483385030}
-    characterCount: 0
+    characterCount: 4
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}

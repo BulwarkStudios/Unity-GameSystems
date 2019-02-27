@@ -1,14 +1,58 @@
-﻿using BulwarkStudios.GameSystems.Logs;
-using BulwarkStudios.GameSystems.Utils.EventTriggers;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+using UnityEditor;
+#endif
+
 namespace BulwarkStudios.GameSystems.Ui {
 
+#if UNITY_EDITOR
+    public class MyAssetModificationProcessor : UnityEditor.AssetModificationProcessor {
+
+        public static string[] OnWillSaveAssets(string[] paths) {
+
+            // Is there a xcene in the path ?
+            bool hasScene = false;
+            foreach (string path in paths) {
+                if (path.Contains(".unity")) {
+                    hasScene = true;
+                    break;
+                }
+            }
+
+            // Save the scene
+            if (hasScene) {
+                foreach (GameObject rootGameObject in EditorSceneManager.GetActiveScene().GetRootGameObjects()) {
+                    foreach (UiButton child in rootGameObject.GetComponentsInChildren<UiButton>(true)) {
+                        child.UpdateState(UiButton.STATE.NORMAL);
+                    }
+                }
+            }
+
+            return paths;
+        }
+
+        /// <summary>
+        /// Reset the initialisation
+        /// </summary>
+        [InitializeOnLoadMethod]
+        private static void OnProjectLoadedInEditor() {
+            foreach (GameObject rootGameObject in EditorSceneManager.GetActiveScene().GetRootGameObjects()) {
+                foreach (UiButton child in rootGameObject.GetComponentsInChildren<UiButton>(true)) {
+                    child.UpdateState(UiButton.STATE.NORMAL);
+                }
+            }
+        }
+
+    }
+#endif
+
     [RequireComponent(typeof(Selectable))]
-    public class UiButton : MonoBehaviour, IDeselectHandler, IMoveHandler, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler, IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IScrollHandler, IPreparable, IInitializable {
+    public class UiButton : MonoBehaviour, IDeselectHandler, IMoveHandler, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler, IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IScrollHandler {
 
         /// <summary>
         /// Button state
@@ -41,21 +85,10 @@ namespace BulwarkStudios.GameSystems.Ui {
         }
 
         /// <summary>
-        /// Initialized?
-        /// </summary>
-        private bool isInitialized;
-
-        /// <summary>
         /// Current state
         /// </summary>
         [ShowInInspector, ReadOnly]
         public STATE state;
-
-        /// <summary>
-        /// Current state
-        /// </summary>
-        [ShowInInspector, System.NonSerialized, HideLabel, OnValueChanged(nameof(PreviewStateChange)), EnumToggleButtons]
-        public STATE previewState = STATE.NORMAL;
 
         /// <summary>
         /// Overrided state?
@@ -86,6 +119,12 @@ namespace BulwarkStudios.GameSystems.Ui {
         private bool cursorIsDown;
 
         /// <summary>
+        /// Initialized?
+        /// </summary>
+        [ShowInInspector, ReadOnly]
+        private bool isInitialized;
+
+        /// <summary>
         /// On state updated event
         /// </summary>
         public event System.Action<STATE> OnStateUpdated;
@@ -100,40 +139,24 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// </summary>
         public event System.Action<UiButton, EVENT, BaseEventData> OnEventTriggered;
 
-        #region Implementation of IPreparable
+        /// <summary>
+        /// Current state
+        /// </summary>
+        [ShowInInspector, System.NonSerialized, HideLabel, OnValueChanged(nameof(PreviewStateChange)), EnumToggleButtons, Title("Preview State")]
+        public STATE previewState = STATE.NORMAL;
 
         /// <summary>
-        /// Prepare the object
+        /// Current state
         /// </summary>
-        void IPreparable.Prepare() {
-
-            // Default state
-            if (!isInitialized) {
-                SetState(STATE.NORMAL);
-            }
-
-        }
-
-        #endregion
-
-        #region Implementation of IInitializable
-
-        /// <summary>
-        /// Initialize the object
-        /// </summary>
-        void IInitializable.Initialize() {
-            RefreshButtonState();
-        }
-
-        #endregion
+        [ShowInInspector, System.NonSerialized, HideLabel, EnumToggleButtons, Title("Preview Event")]
+        public EVENT previewEvent = EVENT.ON_DESELECT;
 
         /// <summary>
         /// Enable
         /// </summary>
         private void OnEnable() {
-            if (isInitialized) {
-                RefreshButtonState();
-            }
+            RefreshButtonState();
+            UpdateState(state);
         }
 
         /// <summary>
@@ -242,7 +265,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// Update the state
         /// </summary>
         /// <param name="newState"></param>
-        private void UpdateState(STATE newState) {
+        public void UpdateState(STATE newState) {
 
             // Update states
             foreach (IUiButtonEffect buttonState in GetComponents<IUiButtonEffect>()) {

@@ -518,36 +518,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: d02320fe2f28b5b4498d84f84a3c107f, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: a67dd601bb7da7743bffbf74018bf207, type: 3}
-    updateColor: 0
     color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   pressed:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: d02320fe2f28b5b4498d84f84a3c107f, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateSprite: 1
     sprite: {fileID: 21300000, guid: 1814791e09a6b67438bf7b46494f34a2, type: 3}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom1:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateSprite: 0
     sprite: {fileID: 0}
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   image: {fileID: 8152678457950518315}
+  updateSprite: 1
+  updateColor: 1
 --- !u!114 &7284651649027660899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,26 +552,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   highlighted:
-    updateColor: 1
     color: {r: 0, g: 0, b: 0, a: 1}
   pressed:
-    updateColor: 1
     color: {r: 1, g: 1, b: 1, a: 1}
   disabled:
-    updateColor: 1
     color: {r: 0.59400004, g: 0.59400004, b: 0.59400004, a: 1}
   custom1:
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   custom2:
-    updateColor: 0
     color: {r: 1, g: 1, b: 1, a: 1}
   text: {fileID: 6660399956312035388}
   updateText: 1
   newText: Button 2
+  updateColor: 1
 --- !u!114 &1459018919565467669
 MonoBehaviour:
   m_ObjectHideFlags: 0

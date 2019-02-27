@@ -1,5 +1,4 @@
-﻿using BulwarkStudios.GameSystems.Logs;
-using BulwarkStudios.GameSystems.Ui;
+﻿using BulwarkStudios.GameSystems.Ui;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
