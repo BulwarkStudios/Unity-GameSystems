@@ -18,10 +18,25 @@ namespace BulwarkStudios.GameSystems.Libraries {
         /// <summary>
         /// List of all libraries
         /// </summary>
-        [ReadOnly]
+        //[ReadOnly]
         public List<ScriptableObject> availableLibraries = new List<ScriptableObject>();
 
+        /// <summary>
+        /// Initialized?
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private bool initialized;
+
 #if UNITY_EDITOR
+
+        /// <summary>
+        /// Reset the initialisation
+        /// </summary>
+        [InitializeOnLoadMethod]
+        static void OnProjectLoadedInEditor() {
+            Instance.initialized = false;
+        }
+
         /// <summary>
         /// When the compiler has ended clear data
         /// </summary>
@@ -41,14 +56,15 @@ namespace BulwarkStudios.GameSystems.Libraries {
 
                     // Type already here
                     bool alreadyAdded = false;
-                    foreach (ScriptableObject soEvent in Instance.availableLibraries) {
+                    foreach (ScriptableObject so in Instance.availableLibraries) {
 
-                        if (soEvent == null) {
+                        if (so == null) {
                             continue;
                         }
 
-                        if (soEvent.GetType() == type) {
+                        if (so.GetType() == type) {
                             alreadyAdded = true;
+                            data.Add(so);
                             break;
                         }
                     }
@@ -109,12 +125,31 @@ namespace BulwarkStudios.GameSystems.Libraries {
         /// Load all available objects
         /// </summary>
         public static void Load() {
+            Instance.Initialize();
+        }
 
-            GameLogSystem.Info("Load all libraries", GameLibraryConstants.LOG_TAG);
+        /// <summary>
+        /// Initialize the context system
+        /// </summary>
+        private void Initialize() {
 
-            foreach (ScriptableObject library in Instance.availableLibraries) { 
-                IGameLibrary gLibrary = library as IGameLibrary;
-                gLibrary?.Load();
+            // Already initialized?
+            if (Instance.initialized) {
+                return;
+            }
+
+            // Initialize
+            initialized = true;
+
+            GameLogSystem.Info("Initialiaze libraries", GameLibraryConstants.LOG_TAG);
+
+            // Setup singletons
+            foreach (ScriptableObject availableLibrary in availableLibraries) {
+                IScriptableObjectSingleton singleton = availableLibrary as IScriptableObjectSingleton;
+                if (singleton == null) {
+                    continue;
+                }
+                singleton.SetInstance(availableLibrary);
             }
 
         }

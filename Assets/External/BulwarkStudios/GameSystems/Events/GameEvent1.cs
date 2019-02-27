@@ -1,30 +1,35 @@
 ﻿using System.Collections.Generic;
 using BulwarkStudios.GameSystems.Logs;
+using BulwarkStudios.GameSystems.Utils;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Events {
+    
+    public abstract class GameEvent<T, P1> : ScriptableObjectSingleton<T>, IGameEvent where T : GameEvent<T, P1>, new() {
 
-    [GlobalConfig(GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER)]
-    public abstract class GameEvent<T, P1> : GlobalConfig<T>, IGameEvent where T : GameEvent<T, P1>, new() {
+        /// <summary>
+        /// Get the instance
+        /// </summary>
+        public new static T Instance {
+            get {
+                GameEventSystem.Load();
+                return instance;
+            }
+        }
 
         /// <summary>
         /// Deactive the logs?
+        /// Get the instance
         /// </summary>
         [SerializeField] private bool deactiveLogs = false;
-
-        private bool isLoaded = false;
 
 #if UNITY_EDITOR
         /// <summary>
         /// Editor initialization
         /// </summary>
         public static GameEvent<T, P1> EditorInitialize() {
-            if (!Instance.isLoaded) {
-                Instance.isLoaded = true;
-            }
-            return Instance;
+            return CreateSingleton(GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER);
         }
 #endif
 
@@ -97,15 +102,6 @@ namespace BulwarkStudios.GameSystems.Events {
         }
 
         #region Implementation of IGameEvent
-
-        /// <summary>
-        /// Load the context
-        /// </summary>
-        void IGameEvent.Load() {
-            if (!Instance.isLoaded) {
-                Instance.isLoaded = true;
-            }
-        }
 
         /// <summary>
         /// Add a listener

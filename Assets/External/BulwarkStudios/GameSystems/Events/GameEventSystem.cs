@@ -14,15 +14,30 @@ using UnityEditor;
 namespace BulwarkStudios.GameSystems.Events {
 
     [GlobalConfig(GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_FOLDER)]
-    public class GameEventSystem : GlobalConfig<GameEventSystem> {
+    public class GameEventSystem : GlobalConfigResourcesFolder<GameEventSystem> {
 
         /// <summary>
         /// List of all contexts
         /// </summary>
-        [ReadOnly]
+        //[ReadOnly]
         public List<ScriptableObject> availableEvents = new List<ScriptableObject>();
 
+        /// <summary>
+        /// Initialized?
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private bool initialized;
+
 #if UNITY_EDITOR
+
+        /// <summary>
+        /// Reset the initialisation
+        /// </summary>
+        [InitializeOnLoadMethod]
+        static void OnProjectLoadedInEditor() {
+            Instance.initialized = false;
+        }
+
         /// <summary>
         /// When the compiler has ended clear data
         /// </summary>
@@ -90,14 +105,15 @@ namespace BulwarkStudios.GameSystems.Events {
 
                 // Type already here
                 bool alreadyAdded = false;
-                foreach (ScriptableObject soEvent in Instance.availableEvents) {
-                     
-                    if (soEvent == null) {
+                foreach (ScriptableObject so in Instance.availableEvents) {
+
+                    if (so == null) {
                         continue;
                     }
 
-                    if (soEvent.GetType() == type) {
+                    if (so.GetType() == type) {
                         alreadyAdded = true;
+                        data.Add(so);
                         break;
                     }
                 }
@@ -127,12 +143,28 @@ namespace BulwarkStudios.GameSystems.Events {
         /// Load all available objects
         /// </summary>
         public static void Load() {
+            Instance.Initialize();
+        }
 
-            GameLogSystem.Info("Load all events", GameEventConstants.LOG_TAG);
+        /// <summary>
+        /// Initialize the context system
+        /// </summary>
+        private void Initialize() {
 
-            foreach (ScriptableObject evt in Instance.availableEvents) {
-                IGameEvent gEvt = evt as IGameEvent;
-                gEvt?.Load();
+            // Already initialized?
+            if (Instance.initialized) {
+                return;
+            }
+
+            // Initialize
+            initialized = true;
+
+            GameLogSystem.Info("Initialiaze events", GameEventConstants.LOG_TAG);
+
+            // Setup singletons
+            foreach (ScriptableObject availableEvent in availableEvents) {
+                IScriptableObjectSingleton singleton = availableEvent as IScriptableObjectSingleton;
+                singleton?.SetInstance(availableEvent);
             }
 
         }

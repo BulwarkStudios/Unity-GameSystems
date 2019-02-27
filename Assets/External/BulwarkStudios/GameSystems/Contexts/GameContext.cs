@@ -1,22 +1,26 @@
-﻿using Sirenix.Utilities;
+﻿using BulwarkStudios.GameSystems.Utils;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Contexts {
 
-    [GlobalConfig(GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER)]
-    public abstract class GameContext<T> : GlobalConfig<T>, IGameContext where T : GameContext<T>, new() {
+    public abstract class GameContext<T> : ScriptableObjectSingleton<T>, IGameContext where T : GameContext<T>, new() {
 
-        private bool isLoaded = false;
+        /// <summary>
+        /// Get the instance
+        /// </summary>
+        public new static T Instance {
+            get {
+                GameContextSystem.Load();
+                return instance;
+            }
+        }
 
 #if UNITY_EDITOR
         /// <summary>
         /// Editor initialization
         /// </summary>
         public static GameContext<T> EditorInitialize() {
-            if (!Instance.isLoaded) {
-                Instance.isLoaded = true;
-            }
-            return Instance;
+            return CreateSingleton(GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER);
         }
 #endif
 
@@ -40,15 +44,6 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <returns></returns>
         ScriptableObject IGameContext.GetScriptableObject() {
             return this;
-        }
-
-        /// <summary>
-        /// Load the context
-        /// </summary>
-        void IGameContext.Load() {
-            if (!Instance.isLoaded) {
-                Instance.isLoaded = true;
-            }
         }
 
         /// <summary>

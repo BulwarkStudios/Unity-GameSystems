@@ -11,11 +11,6 @@ namespace BulwarkStudios.GameSystems.Contexts {
         ScriptableObject GetScriptableObject();
 
         /// <summary>
-        /// Load the context
-        /// </summary>
-        void Load();
-
-        /// <summary>
         /// Context enabled
         /// </summary>
         /// <param name="index"></param>
