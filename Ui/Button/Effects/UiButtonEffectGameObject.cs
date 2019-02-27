@@ -12,6 +12,12 @@ namespace BulwarkStudios.GameSystems.Ui {
         private GameObject gObject = null;
 
         /// <summary>
+        /// Update the active state?
+        /// </summary>
+        [SerializeField]
+        private bool updateActive = false;
+
+        /// <summary>
         /// Preview
         /// </summary>
         /// <param name="state"></param>
@@ -33,7 +39,7 @@ namespace BulwarkStudios.GameSystems.Ui {
             UiButtonEffectDataGameObject dataState = GetButtonUpdate(state);
 
             // Update the game object
-            if (dataState.updateActive) {
+            if (updateActive) {
                 gObject.SetActive(dataState.active);
             }
 
@@ -53,16 +59,14 @@ namespace BulwarkStudios.GameSystems.Ui {
     public class UiButtonEffectDataGameObject : UiButtonEffectData {
 
         /// <summary>
-        /// Update the active state?
-        /// </summary>
-        [ToggleGroup(nameof(updateActive), 0, "Update active", CollapseOthersOnExpand = false)]
-        public bool updateActive = false;
-
-        /// <summary>
         /// New active state
         /// </summary>
-        [ToggleGroup(nameof(updateActive), CollapseOthersOnExpand = false)]
+        [ShowIf(nameof(CheckActive), false)]
         public bool active = true;
+
+        private bool CheckActive() {
+            return CheckCondition("updateActive");
+        }
 
     }
 

@@ -8,37 +8,37 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <summary>
         /// Normal state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.NORMAL), Title("Normal")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.NORMAL, false), Title("Normal")]
         private T normal = new T();
 
         /// <summary>
         /// Highlighted state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.HIGHLIGHTED), Title("Highlighted")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.HIGHLIGHTED, false), Title("Highlighted")]
         private T highlighted = new T();
 
         /// <summary>
         /// Pressed state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.PRESSED), Title("Pressed")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.PRESSED, false), Title("Pressed")]
         private T pressed = new T();
 
         /// <summary>
         /// Disable state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.DISABLED), Title("Disabled")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.DISABLED, false), Title("Disabled")]
         private T disabled = new T();
 
         /// <summary>
         /// Custom1 state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.CUSTOM1), Title("Custom 1")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.CUSTOM1, false), Title("Custom 1")]
         private T custom1 = new T();
 
         /// <summary>
         /// Custom2 state info
         /// </summary>
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.CUSTOM2), Title("Custom 2")]
+        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewState), UiButton.STATE.CUSTOM2, false), Title("Custom 2")]
         private T custom2 = new T();
 
         /// <summary>
@@ -47,21 +47,33 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <param name="state"></param>
         /// <returns></returns>
         protected T GetButtonUpdate(UiButton.STATE state) {
+
+            T data = normal;
+
             switch (state) {
                 case UiButton.STATE.NORMAL:
-                    return normal;
+                    data = normal;
+                    break;
                 case UiButton.STATE.HIGHLIGHTED:
-                    return highlighted;
+                    data = highlighted;
+                    break;
                 case UiButton.STATE.PRESSED:
-                    return pressed;
+                    data = pressed;
+                    break;
                 case UiButton.STATE.DISABLED:
-                    return disabled;
+                    data = disabled;
+                    break;
                 case UiButton.STATE.CUSTOM1:
-                    return custom1;
+                    data = custom1;
+                    break;
                 case UiButton.STATE.CUSTOM2:
-                    return custom2;
+                    data = custom2;
+                    break;
             }
-            return normal;
+
+            data.SetButtonEffect(this);
+
+            return data;
         }
 
         /// <summary>
@@ -74,11 +86,10 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return UiButton.STATE.NORMAL;
             }
 
-            if (Application.isPlaying) {
-                return uiButton.state;
+            if (!Application.isPlaying) {
+                ((IUiButtonEffect)this).PreviewState(uiButton.previewState);
             }
 
-            ((IUiButtonEffect) this).PreviewState(uiButton.previewState);
             return uiButton.previewState;
         }
 

@@ -13,7 +13,7 @@ using UnityEditor;
 namespace BulwarkStudios.GameSystems.Contexts {
 
     [GlobalConfig(GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_FOLDER)]
-    public class GameContextSystem : GlobalConfigResourcesFolder<GameContextSystem> {
+    public class GameContextSystem : GlobalConfig<GameContextSystem> {
 
         /// <summary>
         /// List of all contexts

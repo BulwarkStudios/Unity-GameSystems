@@ -25,6 +25,12 @@ namespace BulwarkStudios.GameSystems.Ui {
         public string newText;
 
         /// <summary>
+        /// Update the color?
+        /// </summary>
+        [SerializeField]
+        private bool updateColor = false;
+
+        /// <summary>
         /// Preview
         /// </summary>
         /// <param name="state"></param>
@@ -46,7 +52,7 @@ namespace BulwarkStudios.GameSystems.Ui {
             UiButtonEffectDataTextMeshProUi dataState = GetButtonUpdate(state);
 
             // Update the color
-            if (dataState.updateColor) {
+            if (updateColor) {
                 text.color = dataState.color;
             }
 
@@ -69,18 +75,16 @@ namespace BulwarkStudios.GameSystems.Ui {
 
     [System.Serializable, HideLabel]
     public class UiButtonEffectDataTextMeshProUi : UiButtonEffectData {
-      
-        /// <summary>
-        /// Update the color?
-        /// </summary>
-        [ToggleGroup(nameof(updateColor), 0, "Update color", CollapseOthersOnExpand = false)]
-        public bool updateColor = false;
 
         /// <summary>
         /// New color
         /// </summary>
-        [ToggleGroup(nameof(updateColor), CollapseOthersOnExpand = false)]
+        [ShowIf(nameof(CheckColor), false)]
         public Color color = Color.white;
+
+        private bool CheckColor() {
+            return CheckCondition("updateColor");
+        }
 
     }
 
