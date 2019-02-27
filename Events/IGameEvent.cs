@@ -3,11 +3,6 @@
     public interface IGameEvent {
 
         /// <summary>
-        /// Load the event
-        /// </summary>
-        void Load();
-
-        /// <summary>
         /// Add a listener
         /// </summary>
         /// <param name="listener"></param>
