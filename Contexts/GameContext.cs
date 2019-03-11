@@ -1,4 +1,6 @@
-﻿using BulwarkStudios.GameSystems.Utils;
+﻿using System.Collections.Generic;
+using BulwarkStudios.GameSystems.Utils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Contexts {
@@ -14,6 +16,12 @@ namespace BulwarkStudios.GameSystems.Contexts {
                 return instance;
             }
         }
+
+        /// <summary>
+        /// Behaviours
+        /// </summary>
+        [ShowInInspector]
+        private List<GameContextBehaviour> behaviours;
 
 #if UNITY_EDITOR
         /// <summary>
@@ -36,6 +44,14 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <param name="index"></param>
         protected virtual void Disable(GameContextSystem.INDEX index) { }
 
+        /// <summary>
+        /// Setup behaviours
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IEnumerable<GameContextBehaviour> SetupBehaviours() {
+            yield break;
+        }
+
         #region Implementation of IGameContext
 
         /// <summary>
@@ -51,6 +67,16 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         /// <param name="index"></param>
         void IGameContext.Enable(GameContextSystem.INDEX index) {
+
+            // Enbale behaviours
+            if (behaviours == null) {
+                behaviours = new List<GameContextBehaviour>(SetupBehaviours());
+            }
+
+            foreach (GameContextBehaviour behaviour in behaviours) {
+                behaviour.Enable(index);
+            }
+
             Enable(index);
         }
 
@@ -59,10 +85,21 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         /// <param name="index"></param>
         void IGameContext.Disable(GameContextSystem.INDEX index) {
+
+            // Disable behaviours
+            if (behaviours == null) {
+                behaviours = new List<GameContextBehaviour>(SetupBehaviours());
+            }
+
+            foreach (GameContextBehaviour behaviour in behaviours) {
+                behaviour.Disable(index);
+            }
+
             Disable(index);
         }
 
         #endregion
+
     }
 
 }

@@ -185,7 +185,12 @@ namespace BulwarkStudios.GameSystems.Ui {
 
             // Change the state
             if (isValid) {
-                SetState(STATE.NORMAL);
+
+                // Selected?
+                if (state != STATE.HIGHLIGHTED) {
+                    SetState(STATE.NORMAL);
+                }
+
             }
             else {
                 SetState(STATE.DISABLED);
