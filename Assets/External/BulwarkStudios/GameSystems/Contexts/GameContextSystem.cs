@@ -220,14 +220,38 @@ namespace BulwarkStudios.GameSystems.Contexts {
             }
 
             // Data
-            ResetContexts();
+            ResetContexts(false);
 
         }
 
         /// <summary>
         /// Reset the contexts
         /// </summary>
-        public static void ResetContexts() {
+        public static void ResetContexts(bool disable = true) {
+
+            // Disable old contexts
+            if (disable) {
+
+                foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                    IGameContext context = Instance.contexts[(int)index] as IGameContext;
+                    if (context != null) {
+                        context.Disable(index);
+                    }
+                    IGameContext layer1 = Instance.layer1Contexts[(int)index] as IGameContext;
+                    if (layer1 != null) {
+                        layer1.Disable(index);
+                    }
+                    IGameContext layer2 = Instance.layer2Contexts[(int)index] as IGameContext;
+                    if (layer2 != null) {
+                        layer2.Disable(index);
+                    }
+                    IGameContext layer3 = Instance.layer3Contexts[(int)index] as IGameContext;
+                    if (layer3 != null) {
+                        layer3.Disable(index);
+                    }
+                }
+
+            }
 
             // Data
             Instance.contexts = new List<ScriptableObject>();
@@ -272,11 +296,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
             // Save ref
             Instance.GetContextList()[(int)index] = context as ScriptableObject;
 
-            // Active new context
-            context.Enable(index);
-
             // Update context
             OnUpdateContext?.Invoke();
+
+            // Active new context
+            context.Enable(index);
 
         }
 
@@ -316,6 +340,9 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
             GameLogSystem.Info("Context remove layer", GameContextConstants.LOG_TAG);
 
+            // Disable
+            DisableCurrentContexts();
+
             // Reset contexts
             if (resetContexts) {
                 Instance.GetContextList().Clear();
@@ -328,6 +355,33 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
             // Update context
             OnUpdateContext?.Invoke();
+
+            // Enable
+            EnableCurrentContexts();
+
+        }
+
+        /// <summary>
+        /// Enable current contexts
+        /// </summary>
+        private static void EnableCurrentContexts() {
+
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                IGameContext context = Instance.GetContextList()[(int)index] as IGameContext;
+                context?.Enable(index);
+            }
+
+        }
+
+        /// <summary>
+        /// Disable current contexts
+        /// </summary>
+        private static void DisableCurrentContexts() {
+
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                IGameContext context = Instance.GetContextList()[(int)index] as IGameContext;
+                context?.Disable(index);
+            }
 
         }
 
