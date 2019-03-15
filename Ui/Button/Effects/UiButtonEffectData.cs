@@ -41,8 +41,9 @@ namespace BulwarkStudios.GameSystems.Ui {
             }
 
             return (bool)field.GetValue(buttonEffect);
-#endif
+#else
             return true;
+#endif
 
         }
 

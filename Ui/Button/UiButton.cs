@@ -103,6 +103,12 @@ namespace BulwarkStudios.GameSystems.Ui {
         private STATE overrideState;
 
         /// <summary>
+        /// Overrided interractable state
+        /// </summary>
+        [ShowInInspector, ReadOnly]
+        private bool overridedInteractable = false;
+
+        /// <summary>
         /// Disable the mouse?
         /// </summary>
         [SerializeField]
@@ -175,6 +181,11 @@ namespace BulwarkStudios.GameSystems.Ui {
 
             // Valid?
             bool isValid = ConstraintsValid();
+
+            // Override interactable?
+            if (overridedInteractable && !Selectable.interactable) {
+                isValid = false;
+            }
 
             // No change
             if (Selectable.interactable == isValid) {
@@ -312,6 +323,26 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <returns></returns>
         public bool IsInteractable() {
             return Selectable.interactable;
+        }
+
+        /// <summary>
+        /// Set Interractable
+        /// </summary>
+        /// <returns></returns>
+        public void SetOverrideInteractable(bool? value) {
+
+            // Reset
+            if (value == null) {
+                overridedInteractable = false;
+                RefreshButtonState();
+                return;
+            }
+
+            // Override
+            overridedInteractable = true;
+            Selectable.interactable = value.Value;
+            RefreshButtonState();
+
         }
 
         /// <summary>
