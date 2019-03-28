@@ -44,78 +44,80 @@ namespace BulwarkStudios.GameSystems.Libraries {
         private static void OnScriptsReloaded() {
 
             EditorApplication.delayCall += () => {
+                EditorApplication.delayCall += () => {
 
-                List<ScriptableObject> data = new List<ScriptableObject>();
+                    List<ScriptableObject> data = new List<ScriptableObject>();
 
-                // Check all context and create libraries
-                foreach (Type type in ReflectionUtils.ListAllDerviedTypes(typeof(GameLibrary<>))) {
+                    // Check all context and create libraries
+                    foreach (Type type in ReflectionUtils.ListAllDerviedTypes(typeof(GameLibrary<>))) {
 
-                    if (type == null) {
-                        continue;
-                    }
-
-                    // Type already here
-                    bool alreadyAdded = false;
-                    foreach (ScriptableObject so in Instance.availableLibraries) {
-
-                        if (so == null) {
+                        if (type == null) {
                             continue;
                         }
 
-                        if (so.GetType() == type) {
-                            alreadyAdded = true;
-                            data.Add(so);
-                            break;
+                        // Type already here
+                        bool alreadyAdded = false;
+                        foreach (ScriptableObject so in Instance.availableLibraries) {
+
+                            if (so == null) {
+                                continue;
+                            }
+
+                            if (so.GetType() == type) {
+                                alreadyAdded = true;
+                                data.Add(so);
+                                break;
+                            }
                         }
-                    }
 
-                    // Skip if already added
-                    if (alreadyAdded) {
-                        continue;
-                    }
+                        // Skip if already added
+                        if (alreadyAdded) {
+                            continue;
+                        }
 
-                    MethodInfo method = type.GetMethod("EditorInitialize",
-                        BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static |
-                        BindingFlags.FlattenHierarchy);
+                        MethodInfo method = type.GetMethod("EditorInitialize",
+                            BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static |
+                            BindingFlags.FlattenHierarchy);
 
-                    // Add context
-                    if (method != null) {
-                        object context = method.Invoke(null, null);
-                        data.Add(context as ScriptableObject);
-                    }
-
-                }
-
-                Instance.availableLibraries = data;
-
-                // Remove deleted events
-                string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
-                    "Assets/" + GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
-                });
-
-                // Loop on all scriptable objects
-                for (int i = 0; i < guidsAssets1.Length; i++) {
-
-                    string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
-                    UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
-
-                    // Check if errors 
-                    if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
-                        string.IsNullOrEmpty(sObj.GetType().ToString()) ||
-                        sObj.GetType() == typeof(UnityEngine.Object)) {
-
-                        UnityEngine.Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
-                                                   path + " object: " + sObj);
-
-                        AssetDatabase.DeleteAsset(path);
+                        // Add context
+                        if (method != null) {
+                            object context = method.Invoke(null, null);
+                            data.Add(context as ScriptableObject);
+                        }
 
                     }
 
-                }
+                    Instance.availableLibraries = data;
 
-                EditorUtility.SetDirty(Instance);
-                AssetDatabase.SaveAssets();
+                    // Remove deleted events
+                    string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
+                        "Assets/" + GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
+                    });
 
+                    // Loop on all scriptable objects
+                    for (int i = 0; i < guidsAssets1.Length; i++) {
+
+                        string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
+                        UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+
+                        // Check if errors 
+                        if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
+                            string.IsNullOrEmpty(sObj.GetType().ToString()) ||
+                            sObj.GetType() == typeof(UnityEngine.Object)) {
+
+                            UnityEngine.Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
+                                                       path + " object: " + sObj);
+
+                            AssetDatabase.DeleteAsset(path);
+
+                        }
+
+                    }
+
+                    EditorUtility.SetDirty(Instance);
+                    AssetDatabase.SaveAssets();
+
+                }; // End of delay call
             }; // End of delay call
 
         }

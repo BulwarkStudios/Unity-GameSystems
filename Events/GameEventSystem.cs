@@ -45,45 +45,47 @@ namespace BulwarkStudios.GameSystems.Events {
         private static void OnScriptsReloaded() {
 
             EditorApplication.delayCall += () => {
+                EditorApplication.delayCall += () => {
 
-                List<ScriptableObject> data = new List<ScriptableObject>();
+                    List<ScriptableObject> data = new List<ScriptableObject>();
 
-                data.AddRange(CheckEventType(typeof(GameEvent<>)));
-                data.AddRange(CheckEventType(typeof(GameEvent<,>)));
-                data.AddRange(CheckEventType(typeof(GameEvent<,,>)));
-                data.AddRange(CheckEventType(typeof(GameEvent<,,,>)));
-                data.AddRange(CheckEventType(typeof(GameEvent<,,,,>)));
+                    data.AddRange(CheckEventType(typeof(GameEvent<>)));
+                    data.AddRange(CheckEventType(typeof(GameEvent<,>)));
+                    data.AddRange(CheckEventType(typeof(GameEvent<,,>)));
+                    data.AddRange(CheckEventType(typeof(GameEvent<,,,>)));
+                    data.AddRange(CheckEventType(typeof(GameEvent<,,,,>)));
 
-                Instance.availableEvents = data;
+                    Instance.availableEvents = data;
 
-                // Remove deleted events
-                string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
-                    "Assets/" + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
-                });
+                    // Remove deleted events
+                    string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
+                        "Assets/" + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
+                    });
 
-                // Loop on all scriptable objects
-                for (int i = 0; i < guidsAssets1.Length; i++) {
+                    // Loop on all scriptable objects
+                    for (int i = 0; i < guidsAssets1.Length; i++) {
 
-                    string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
-                    UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+                        string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
+                        UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
 
-                    // Check if errors 
-                    if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
-                        string.IsNullOrEmpty(sObj.GetType().ToString()) ||
-                        sObj.GetType() == typeof(UnityEngine.Object)) {
+                        // Check if errors 
+                        if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
+                            string.IsNullOrEmpty(sObj.GetType().ToString()) ||
+                            sObj.GetType() == typeof(UnityEngine.Object)) {
 
-                        Debug.LogError("An event has been deleted guid: " + guidsAssets1[i] + " path: " + path +
-                                       " object: " + sObj);
+                            Debug.LogError("An event has been deleted guid: " + guidsAssets1[i] + " path: " + path +
+                                           " object: " + sObj);
 
-                        AssetDatabase.DeleteAsset(path);
+                            AssetDatabase.DeleteAsset(path);
+
+                        }
 
                     }
 
-                }
+                    EditorUtility.SetDirty(Instance);
+                    AssetDatabase.SaveAssets();
 
-                EditorUtility.SetDirty(Instance);
-                AssetDatabase.SaveAssets();
-
+                }; // End delay call
             }; // End delay call
 
         }
