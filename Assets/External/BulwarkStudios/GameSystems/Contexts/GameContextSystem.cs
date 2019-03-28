@@ -270,6 +270,9 @@ namespace BulwarkStudios.GameSystems.Contexts {
                 Instance.layer3Contexts.Add(GameContextNone.Instance);
             }
 
+            // Update context
+            OnUpdateContext?.Invoke();
+
         }
 
         /// <summary>
