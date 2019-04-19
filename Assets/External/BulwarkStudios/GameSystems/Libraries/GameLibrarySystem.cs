@@ -35,6 +35,22 @@ namespace BulwarkStudios.GameSystems.Libraries {
         [InitializeOnLoadMethod]
         static void OnProjectLoadedInEditor() {
             Instance.initialized = false;
+            EditorApplication.playModeStateChanged -= PlayModeChanged;
+            EditorApplication.playModeStateChanged += PlayModeChanged;
+        }
+
+        /// <summary>
+        /// Playmode chaged
+        /// </summary>
+        /// <param name="mode"></param>
+        private static void PlayModeChanged(PlayModeStateChange mode) {
+
+            switch (mode) {
+                case PlayModeStateChange.ExitingPlayMode:
+                    Instance.initialized = false;
+                    break;
+            }
+
         }
 
         /// <summary>

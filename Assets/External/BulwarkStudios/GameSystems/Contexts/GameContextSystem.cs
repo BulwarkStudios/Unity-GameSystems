@@ -77,6 +77,23 @@ namespace BulwarkStudios.GameSystems.Contexts {
         [InitializeOnLoadMethod]
         static void OnProjectLoadedInEditor() {
             Instance.initialized = false;
+            EditorApplication.playModeStateChanged -= PlayModeChanged;
+            EditorApplication.playModeStateChanged += PlayModeChanged;
+        }
+
+        /// <summary>
+        /// Playmode chaged
+        /// </summary>
+        /// <param name="mode"></param>
+        private static void PlayModeChanged(PlayModeStateChange mode) {
+
+            switch (mode) {
+                case PlayModeStateChange.ExitingPlayMode:
+                    Instance.initialized = false;
+                    ResetContexts(false);
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -341,9 +358,16 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <summary>
         /// Add a context layer
         /// </summary>
-        public static void RemoveLayer(bool resetContexts = true) {
+        public static void RemoveLayer(IGameContext context, bool resetContexts = true) {
 
             GameLogSystem.Info("Context remove layer", GameContextConstants.LOG_TAG);
+
+            if (context != null) {
+                if (!HasContext(context.GetScriptableObject())) {
+                    GameLogSystem.Info("Context remove layer didnot have the requested context", GameContextConstants.LOG_TAG);
+                    return;
+                }
+            }
 
             // Disable
             DisableCurrentContexts();

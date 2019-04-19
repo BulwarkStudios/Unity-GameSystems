@@ -48,7 +48,7 @@ namespace BulwarkStudios.Tests {
         private void Close() {
 
             // Remove context layer
-            GameContextSystem.RemoveLayer();
+            GameContextSystem.RemoveLayer(GameContextSettings.Instance);
             gameObject.SetActive(false);
 
         }
