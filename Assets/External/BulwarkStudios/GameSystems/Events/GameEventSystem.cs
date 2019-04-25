@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using BulwarkStudios.GameSystems.Logs;
 using BulwarkStudios.GameSystems.Utils;
@@ -134,6 +135,25 @@ namespace BulwarkStudios.GameSystems.Events {
                         data.Add(so);
                         break;
                     }
+                }
+
+                if (!alreadyAdded) {
+
+                    // File already created?
+                    string[] files = Directory.GetFiles(
+                        Application.dataPath + Path.DirectorySeparatorChar +
+                        GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER, "*",
+                        SearchOption.AllDirectories);
+
+                    // Check file names
+                    foreach (string file in files) {
+                        Debug.Log(file + " " + type.Name + " " + file.Contains(type.Name));
+                        if (file.Contains(type.Name)) {
+                            alreadyAdded = true;
+                            break;
+                        }
+                    }
+
                 }
 
                 // Skip if already added
