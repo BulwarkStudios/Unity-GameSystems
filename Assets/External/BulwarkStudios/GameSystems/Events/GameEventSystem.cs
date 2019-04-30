@@ -147,7 +147,6 @@ namespace BulwarkStudios.GameSystems.Events {
 
                     // Check file names
                     foreach (string file in files) {
-                        Debug.Log(file + " " + type.Name + " " + file.Contains(type.Name));
                         if (file.Contains(type.Name)) {
                             alreadyAdded = true;
                             break;

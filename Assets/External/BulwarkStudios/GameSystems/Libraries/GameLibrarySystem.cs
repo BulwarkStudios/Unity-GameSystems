@@ -97,7 +97,6 @@ namespace BulwarkStudios.GameSystems.Libraries {
 
                             // Check file names
                             foreach (string file in files) {
-                                Debug.Log(file + " " + type.Name + " " + file.Contains(type.Name));
                                 if (file.Contains(type.Name)) {
                                     alreadyAdded = true;
                                     break;
@@ -141,7 +140,7 @@ namespace BulwarkStudios.GameSystems.Libraries {
                             string.IsNullOrEmpty(sObj.GetType().ToString()) ||
                             sObj.GetType() == typeof(UnityEngine.Object)) {
 
-                            UnityEngine.Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
+                            Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
                                                        path + " object: " + sObj);
 
                             AssetDatabase.DeleteAsset(path);
