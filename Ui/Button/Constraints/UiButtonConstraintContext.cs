@@ -46,6 +46,15 @@ namespace BulwarkStudios.GameSystems.Ui {
         }
 
         /// <summary>
+        /// Set the context
+        /// </summary>
+        /// <param name="context"></param>
+        public void SetGameContext(IGameContext context) {
+            gameContext = context;
+            OnUpdateContext();
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         private void OnUpdateContext() {
