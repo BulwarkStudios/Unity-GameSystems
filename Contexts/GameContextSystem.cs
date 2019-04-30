@@ -133,17 +133,25 @@ namespace BulwarkStudios.GameSystems.Contexts {
                         if (!alreadyAdded) {
 
                             // File already created?
-                            string[] files = Directory.GetFiles(
-                                Application.dataPath + Path.DirectorySeparatorChar +
-                                GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER, "*",
-                                SearchOption.AllDirectories);
+                            string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
+                                "Assets" + Path.DirectorySeparatorChar + GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER
+                            });
 
                             // Check file names
-                            foreach (string file in files) {
-                                if (file.Contains(type.Name)) {
-                                    alreadyAdded = true;
-                                    break;
+                            foreach (string guid in guids) {
+                                string p = AssetDatabase.GUIDToAssetPath(guid);
+                                ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
+                                if (sObj == null || !sObj.name.Contains(type.Name)) {
+                                    continue;
                                 }
+
+                                GameLogSystem.Info("File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(), GameContextConstants.LOG_TAG);
+
+                                if (!ContainsFile(sObj.name)) {
+                                    data.Add(sObj);
+                                }
+                                alreadyAdded = true;
+                                break;
                             }
 
                         }
@@ -200,6 +208,24 @@ namespace BulwarkStudios.GameSystems.Contexts {
             }; // End delay call
 
         }
+
+        /// <summary>
+        /// Available data contains the file?
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private static bool ContainsFile(string file) {
+
+            foreach (ScriptableObject so in Instance.availableContexts) {
+                if (file.Contains(so.name)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
 #endif
 
         /// <summary>
