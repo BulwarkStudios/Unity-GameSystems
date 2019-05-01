@@ -20,7 +20,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <summary>
         /// Behaviours
         /// </summary>
-        [ShowInInspector]
+        [ShowInInspector, ReadOnly]
         private List<GameContextBehaviour> behaviours;
 
 #if UNITY_EDITOR
@@ -96,6 +96,22 @@ namespace BulwarkStudios.GameSystems.Contexts {
             }
 
             Disable(index);
+        }
+
+        /// <summary>
+        /// Context disabled with remove layer
+        /// </summary>
+        void IGameContext.RemoveLayer() {
+
+            // Enbale behaviours
+            if (behaviours == null) {
+                behaviours = new List<GameContextBehaviour>(SetupBehaviours());
+            }
+
+            foreach (GameContextBehaviour behaviour in behaviours) {
+                behaviour.RemoveLayer();
+            }
+
         }
 
         #endregion

@@ -14,6 +14,11 @@
         /// <param name="index"></param>
         public abstract void Disable(GameContextSystem.INDEX index);
 
+        /// <summary>
+        /// Context disabled with removed layer
+        /// </summary>
+        public abstract void RemoveLayer();
+
     }
 
 }

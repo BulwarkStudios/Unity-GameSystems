@@ -7,6 +7,7 @@ using BulwarkStudios.GameSystems.Utils;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
+using JetBrains.Annotations;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -45,6 +46,36 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         [ReadOnly, ShowInInspector]
         private List<ScriptableObject> layer3Contexts;
+
+        /// <summary>
+        /// Context in the layer 4
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private List<ScriptableObject> layer4Contexts;
+
+        /// <summary>
+        /// Context in the layer 5
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private List<ScriptableObject> layer5Contexts;
+
+        /// <summary>
+        /// Context in the layer 6
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private List<ScriptableObject> layer6Contexts;
+
+        /// <summary>
+        /// Context in the layer 7
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private List<ScriptableObject> layer7Contexts;
+
+        /// <summary>
+        /// Context in the layer 8
+        /// </summary>
+        [ReadOnly, ShowInInspector]
+        private List<ScriptableObject> layer8Contexts;
 
         /// <summary>
         /// Current layer
@@ -239,10 +270,15 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// Get the current context list
         /// </summary>
         /// <returns></returns>
-        private List<ScriptableObject> GetContextList() {
+        private List<ScriptableObject> GetContextList(int layerIndex = -1) {
+
+            // Get the index
+            if (layerIndex < 0) {
+                layerIndex = Instance.layer;
+            }
 
             // Get the current context list depending on the layer
-            switch (Instance.layer) {
+            switch (layerIndex) {
                 case 0:
                     return contexts;
                 case 1:
@@ -250,7 +286,17 @@ namespace BulwarkStudios.GameSystems.Contexts {
                 case 2:
                     return layer2Contexts;
                 case 3:
-                    return layer2Contexts;
+                    return layer3Contexts;
+                case 4:
+                    return layer4Contexts;
+                case 5:
+                    return layer5Contexts;
+                case 6:
+                    return layer6Contexts;
+                case 7:
+                    return layer7Contexts;
+                case 8:
+                    return layer8Contexts;
             }
 
             GameLogSystem.Info("Context layer doesn't exist!", GameContextConstants.LOG_TAG);
@@ -297,22 +343,34 @@ namespace BulwarkStudios.GameSystems.Contexts {
             if (disable) {
 
                 foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+
                     IGameContext context = Instance.contexts[(int)index] as IGameContext;
-                    if (context != null) {
-                        context.Disable(index);
-                    }
+                    context?.Disable(index);
+
                     IGameContext layer1 = Instance.layer1Contexts[(int)index] as IGameContext;
-                    if (layer1 != null) {
-                        layer1.Disable(index);
-                    }
+                    layer1?.Disable(index);
+
                     IGameContext layer2 = Instance.layer2Contexts[(int)index] as IGameContext;
-                    if (layer2 != null) {
-                        layer2.Disable(index);
-                    }
+                    layer2?.Disable(index);
+
                     IGameContext layer3 = Instance.layer3Contexts[(int)index] as IGameContext;
-                    if (layer3 != null) {
-                        layer3.Disable(index);
-                    }
+                    layer3?.Disable(index);
+
+                    IGameContext layer4 = Instance.layer4Contexts[(int)index] as IGameContext;
+                    layer4?.Disable(index);
+
+                    IGameContext layer5 = Instance.layer5Contexts[(int)index] as IGameContext;
+                    layer5?.Disable(index);
+
+                    IGameContext layer6 = Instance.layer6Contexts[(int)index] as IGameContext;
+                    layer6?.Disable(index);
+
+                    IGameContext layer7 = Instance.layer7Contexts[(int)index] as IGameContext;
+                    layer7?.Disable(index);
+
+                    IGameContext layer8 = Instance.layer8Contexts[(int)index] as IGameContext;
+                    layer8?.Disable(index);
+
                 }
 
             }
@@ -322,6 +380,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
             Instance.layer1Contexts = new List<ScriptableObject>();
             Instance.layer2Contexts = new List<ScriptableObject>();
             Instance.layer3Contexts = new List<ScriptableObject>();
+            Instance.layer4Contexts = new List<ScriptableObject>();
+            Instance.layer5Contexts = new List<ScriptableObject>();
+            Instance.layer6Contexts = new List<ScriptableObject>();
+            Instance.layer7Contexts = new List<ScriptableObject>();
+            Instance.layer8Contexts = new List<ScriptableObject>();
             Instance.layer = 0;
 
             // Set default context
@@ -330,6 +393,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
                 Instance.layer1Contexts.Add(GameContextNone.Instance);
                 Instance.layer2Contexts.Add(GameContextNone.Instance);
                 Instance.layer3Contexts.Add(GameContextNone.Instance);
+                Instance.layer4Contexts.Add(GameContextNone.Instance);
+                Instance.layer5Contexts.Add(GameContextNone.Instance);
+                Instance.layer6Contexts.Add(GameContextNone.Instance);
+                Instance.layer7Contexts.Add(GameContextNone.Instance);
+                Instance.layer8Contexts.Add(GameContextNone.Instance);
             }
 
             // Update context
@@ -372,6 +440,17 @@ namespace BulwarkStudios.GameSystems.Contexts {
         }
 
         /// <summary>
+        /// Add a temporary context layer
+        /// </summary>
+        public static void AddTemporaryLayer() {
+
+            AddLayer(false);
+
+            SetContext(GameContextTemporary.Instance, INDEX.MAIN);
+
+        }
+
+        /// <summary>
         /// Add a context layer
         /// <param name="context"></param>
         /// <param name="index"></param>
@@ -401,7 +480,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         }
 
         /// <summary>
-        /// Add a context layer
+        /// Remove a context layer
         /// </summary>
         public static void RemoveLayer(IGameContext context, bool resetContexts = true) {
 
@@ -415,7 +494,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
             }
 
             // Disable
-            DisableCurrentContexts();
+            DisableCurrentContexts(true);
 
             // Reset contexts
             if (resetContexts) {
@@ -450,11 +529,32 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <summary>
         /// Disable current contexts
         /// </summary>
-        private static void DisableCurrentContexts() {
+        private static void DisableCurrentContexts(bool removeLayer) {
+
+            // Do not disable if the previous layer has a Temporary context
+            bool disableContext = true;
+
+            if (removeLayer && Instance.layer > 1) {
+
+                if (HasContext((IGameContext)GameContextTemporary.Instance, Instance.layer - 1)) {
+                    disableContext = false;
+                }
+
+            }
 
             foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
                 IGameContext context = Instance.GetContextList()[(int)index] as IGameContext;
-                context?.Disable(index);
+                if (context == null) {
+                    continue;
+                }
+
+                if (disableContext) {
+                    context.Disable(index);
+                }
+
+                if (removeLayer) {
+                    context.RemoveLayer();
+                }
             }
 
         }
@@ -464,10 +564,10 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         /// <param name="contexts"></param>
         /// <returns></returns>
-        public static bool HasContexts(IEnumerable<ScriptableObject> contexts) {
+        public static bool HasContexts(IEnumerable<ScriptableObject> contexts, int layerIndex = -1) {
 
             foreach (ScriptableObject gameContext in contexts) {
-                if (!HasContext(gameContext)) {
+                if (!HasContext(gameContext, layerIndex)) {
                     return false;
                 }
             }
@@ -480,10 +580,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// Has a context?
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="layerIndex"></param>
         /// <returns></returns>
-        public static bool HasContext(IGameContext context) {
+        public static bool HasContext([NotNull] IGameContext context, int layerIndex = -1) {
 
-            if (HasContext(context.GetScriptableObject())) {
+            if (HasContext(context.GetScriptableObject(), layerIndex)) {
                 return true;
             }
 
@@ -495,10 +596,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// Has a context?
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="layerIndex"></param>
         /// <returns></returns>
-        private static bool HasContext(ScriptableObject context) {
+        private static bool HasContext(ScriptableObject context, int layerIndex = -1) {
 
-            if (Instance.GetContextList().Contains(context)) {
+            if (Instance.GetContextList(layerIndex).Contains(context)) {
                 return true;
             }
 
@@ -583,6 +685,66 @@ namespace BulwarkStudios.GameSystems.Contexts {
                     continue;
                 }
                 data += index + ": " + Instance.layer3Contexts[(int)index].GetHashCode() + " " + Instance.layer3Contexts[(int)index] + "\n";
+            }
+            data += "\n";
+
+            data += "Layer 4: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer4Contexts == null || Instance.layer4Contexts.Count < (int)index) {
+                    continue;
+                }
+                if (Instance.layer4Contexts[(int)index] == null) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer4Contexts[(int)index].GetHashCode() + " " + Instance.layer4Contexts[(int)index] + "\n";
+            }
+            data += "\n";
+
+            data += "Layer 5: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer5Contexts == null || Instance.layer5Contexts.Count < (int)index) {
+                    continue;
+                }
+                if (Instance.layer5Contexts[(int)index] == null) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer5Contexts[(int)index].GetHashCode() + " " + Instance.layer5Contexts[(int)index] + "\n";
+            }
+            data += "\n";
+
+            data += "Layer 6: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer6Contexts == null || Instance.layer6Contexts.Count < (int)index) {
+                    continue;
+                }
+                if (Instance.layer6Contexts[(int)index] == null) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer6Contexts[(int)index].GetHashCode() + " " + Instance.layer6Contexts[(int)index] + "\n";
+            }
+            data += "\n";
+
+            data += "Layer 7: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer7Contexts == null || Instance.layer7Contexts.Count < (int)index) {
+                    continue;
+                }
+                if (Instance.layer7Contexts[(int)index] == null) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer7Contexts[(int)index].GetHashCode() + " " + Instance.layer7Contexts[(int)index] + "\n";
+            }
+            data += "\n";
+
+            data += "Layer 8: " + "\n";
+            foreach (INDEX index in Enum.GetValues(typeof(INDEX))) {
+                if (Instance.layer8Contexts == null || Instance.layer8Contexts.Count < (int)index) {
+                    continue;
+                }
+                if (Instance.layer8Contexts[(int)index] == null) {
+                    continue;
+                }
+                data += index + ": " + Instance.layer8Contexts[(int)index].GetHashCode() + " " + Instance.layer8Contexts[(int)index] + "\n";
             }
             data += "\n";
 
