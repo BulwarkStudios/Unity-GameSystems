@@ -22,6 +22,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <param name="index"></param>
         void Disable(GameContextSystem.INDEX index);
 
+        /// <summary>
+        /// Context disabled with remove layer
+        /// </summary>
+        void RemoveLayer();
+
     }
 
 }
