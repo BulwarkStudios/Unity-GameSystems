@@ -444,7 +444,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         public static void AddTemporaryLayer() {
 
-            AddLayer(false);
+            AddEmptyLayer(false);
 
             SetContext(GameContextTemporary.Instance, INDEX.MAIN);
 
@@ -457,7 +457,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         public static void AddLayer(IGameContext context, INDEX index = INDEX.MAIN) {
 
-            AddLayer(false);
+            AddEmptyLayer(false);
 
             SetContext(context, index);
 
@@ -466,7 +466,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <summary>
         /// Add a context layer
         /// </summary>
-        public static void AddLayer(bool triggerOnUpdateContext = true) {
+        public static void AddEmptyLayer(bool triggerOnUpdateContext = true) {
 
             GameLogSystem.Info("Context add layer", GameContextConstants.LOG_TAG);
 
