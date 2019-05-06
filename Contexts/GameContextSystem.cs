@@ -455,7 +455,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <param name="context"></param>
         /// <param name="index"></param>
         /// </summary>
-        public static void AddLayer(IGameContext context, INDEX index) {
+        public static void AddLayer(IGameContext context, INDEX index = INDEX.MAIN) {
 
             AddLayer(false);
 
