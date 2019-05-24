@@ -1,8 +1,8 @@
 # !!! IMPORTANT !!!
 
-Developped with Unity 2019.1.0a14
+Developped with Unity 2019.1.3f1
 
-- Require Odin Inspector (version used: 2.0.15.3): https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041
+- Require Odin Inspector (version used: 2.0.20): https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041
 
 - Require TextMesh Pro: Package Manager TextMesh Pro 1.3.0
 

@@ -14,7 +14,7 @@ using UnityEditor;
 namespace BulwarkStudios.GameSystems.Libraries {
 
     [GlobalConfig(GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_FOLDER)]
-    public class GameLibrarySystem : GlobalConfig<GameLibrarySystem> {
+    public class GameLibrarySystem : GlobalConfigResourcesFolder<GameLibrarySystem> {
 
         /// <summary>
         /// List of all libraries

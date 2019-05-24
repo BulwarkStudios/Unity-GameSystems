@@ -15,7 +15,7 @@ using UnityEditor;
 namespace BulwarkStudios.GameSystems.Events {
 
     [GlobalConfig(GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_FOLDER)]
-    public class GameEventSystem : GlobalConfig<GameEventSystem> {
+    public class GameEventSystem : GlobalConfigResourcesFolder<GameEventSystem> {
 
         /// <summary>
         /// List of all contexts
