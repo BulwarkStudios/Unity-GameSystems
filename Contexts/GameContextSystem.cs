@@ -15,7 +15,7 @@ using UnityEditor;
 namespace BulwarkStudios.GameSystems.Contexts {
 
     [GlobalConfig(GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_FOLDER)]
-    public class GameContextSystem : GlobalConfig<GameContextSystem> {
+    public class GameContextSystem : GlobalConfigResourcesFolder<GameContextSystem> {
 
         /// <summary>
         /// List of all contexts
@@ -402,6 +402,32 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
             // Update context
             OnUpdateContext?.Invoke();
+
+        }
+
+        /// <summary>
+        /// Set a context to the first layer
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="index"></param>
+        public static void SetFirstLayerContext(IGameContext context, INDEX index) {
+
+            // Initialize
+            Instance.Initialize();
+
+            // Context null ?
+            if (context == null) {
+                return;
+            }
+
+            // If the current layer is already the first, just set the context normally
+            if (Instance.layer == 0) {
+                SetContext(context, index);
+                return;
+            }
+
+            // Set the context
+            Instance.GetContextList(0)[(int)index] = context as ScriptableObject;
 
         }
 
