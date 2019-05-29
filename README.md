@@ -65,7 +65,7 @@ GameContextSystem.SetContext(GameContextSettings.Instance, GameContextSystem.IND
 
 #### Remove context layer: See the WindowSettings class
 ```
-GameContextSystem.RemoveLayer();
+GameContextSystem.RemoveLayer(GameContextSettings.Instance);
 ```
 
 # Events
