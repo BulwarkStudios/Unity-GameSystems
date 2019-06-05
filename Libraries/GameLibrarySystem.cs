@@ -173,7 +173,7 @@ namespace BulwarkStudios.GameSystems.Libraries {
         private static bool ContainsFile(string file) {
 
             foreach (ScriptableObject so in Instance.availableLibraries) {
-                if (file.Contains(so.name)) {
+                if (file.Equals(so.name)) {
                     return true;
                 }
             }
