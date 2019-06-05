@@ -190,7 +190,7 @@ namespace BulwarkStudios.GameSystems.Events {
         private static bool ContainsFile(string file) {
 
             foreach (ScriptableObject so in Instance.availableEvents) {
-                if (file.Contains(so.name)) {
+                if (file.Equals(so.name)) {
                     return true;
                 }
             }

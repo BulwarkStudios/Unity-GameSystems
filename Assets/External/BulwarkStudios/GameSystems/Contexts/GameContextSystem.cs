@@ -248,7 +248,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
         private static bool ContainsFile(string file) {
 
             foreach (ScriptableObject so in Instance.availableContexts) {
-                if (file.Contains(so.name)) {
+                if (file.Equals(so.name)) {
                     return true;
                 }
             }
