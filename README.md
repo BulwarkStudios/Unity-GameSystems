@@ -6,6 +6,13 @@ Developped with Unity 2019.1.3f1
 
 - Require TextMesh Pro: Package Manager TextMesh Pro 1.3.0
 
+# How to make a Unity Package Manager release
+
+Execute:
+git subtree split --prefix=Assets/External/BulwarkStudios/GameSystems --branch upm
+git tag 1.0.0 upm
+git push origin upm --tags
+
 # How to test the project
 
 - Install Odin Inspector
