@@ -3,8 +3,8 @@
     "displayName": "Game Systems",
     "version": "1.0.0",
     "unity": "2019.1",
-    "description": "Unity-GameSystems is a set of tools made to fix and clean design patterns used in the game."
+    "description": "Unity-GameSystems is a set of tools made to fix and clean design patterns used in the game.",
 	"dependencies": {
-		"com.unity.textmeshpro": "2.0.0",
+		"com.unity.textmeshpro": "2.0.0"
 	}
 }
