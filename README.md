@@ -21,6 +21,20 @@ git push origin upm --tags
 - Open the scene "Assets/Scenes/MainMenu.scene"
 - Click on the play button
 
+# How to import the package in Unity
+
+- Install Git for windows (https://git-scm.com/download/win)
+- Close Unity if open
+- Close Unity Hub if open
+- Add in your Packages/manifest.json file:
+```
+{
+  "dependencies": {
+    "com.bulwarkstudios.gamesystems": "https://github.com/BulwarkStudios/Unity-GameSystems.git#upm",
+    ...
+}
+```
+
 # Unity-GameSystems
 
 Unity-GameSystems is a set of tools made after the release of Warhammer 40.000: Mechanicus (https://store.steampowered.com/app/673880/Warhammer_40000_Mechanicus/) to fix and clean design patterns used in the game.
