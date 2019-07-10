@@ -34,6 +34,14 @@ git push origin upm --tags
     ...
 }
 ```
+To get update in the package manager, install this extension: (https://github.com/mob-sakai/UpmGitExtension)
+```
+{
+  "dependencies": {
+    "com.coffee.upm-git-extension": "https://github.com/mob-sakai/UpmGitExtension.git#0.9.0",
+    ...
+}
+```
 
 # Unity-GameSystems
 
