@@ -118,9 +118,42 @@ namespace BulwarkStudios.GameSystems.Platform {
                 return false;
             }
 
-            Debug.Log("HasDlc purchase: " + client.App.PurchaseTime(dlc.steamAppDlcId) + " " + DateTime.MinValue);
+            Debug.Log("HasDlc purchase: " + dlc.name + " " + client.App.PurchaseTime(dlc.steamAppDlcId) + " " + DateTime.MinValue + " installed: " + client.App.IsDlcInstalled(dlc.steamAppDlcId));
 
             return client.App.IsDlcInstalled(dlc.steamAppDlcId);
+
+        }
+
+        /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        protected override void BuyDlc(PlatformDlc dlc, System.Action<PlatformDlcResult> result) {
+
+            if (client == null || client.Overlay == null) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Steam not initialized"));
+                Debug.Log("Steam : " + dlc.steamUrlStore);
+                return;
+            }
+
+            if (dlc == null || dlc.steamUrlStore == null) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Dlc not initialized"));
+                Debug.Log("OpenUrl: " + dlc.steamUrlStore);
+                return;
+            }
+
+            if (HasDlc(dlc)) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Steam already has the DLC"));
+                Debug.Log("OpenUrl: " + dlc.steamUrlStore);
+                return;
+            }
+
+            Debug.Log("OpenUrl: " + dlc.steamUrlStore);
+
+            client.Overlay.OpenUrl(dlc.steamUrlStore);
+
+            result(new PlatformDlcResult(PlatformDlcResult.STATE.SUCCESS));
 
         }
 

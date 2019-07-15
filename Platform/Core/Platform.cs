@@ -27,6 +27,7 @@ namespace BulwarkStudios.GameSystems.Platform {
             // Initialize
             try {
                 current.Initialize(config);
+                Debug.Log("Platform: " + platform);
             }
             catch (System.Exception e) {
                 Debug.Log(e);

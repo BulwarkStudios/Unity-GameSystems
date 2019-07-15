@@ -189,6 +189,19 @@ namespace BulwarkStudios.GameSystems.Platform {
         }
 
         /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        protected override void BuyDlc(PlatformDlc dlc, System.Action<PlatformDlcResult> result) {
+
+            if (result != null) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Not implemented"));
+            }
+
+        }
+
+        /// <summary>
         /// Reset all achievements
         /// </summary>
         protected override void ResetAllAchievements() {

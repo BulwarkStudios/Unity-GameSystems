@@ -42,6 +42,13 @@ namespace BulwarkStudios.GameSystems.Platform {
         bool HasDlc(PlatformDlc dlc);
 
         /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        void BuyDlc(PlatformDlc dlc, Action<PlatformDlcResult> result);
+
+        /// <summary>
         /// Set an achievement constraint
         /// </summary>
         /// <param name="constraint"></param>
@@ -126,6 +133,8 @@ namespace BulwarkStudios.GameSystems.Platform {
         /// </summary>
         /// <param name="name"></param>
         void AnalyticsTutorialSkip(string name);
+
+        
 
     }
 

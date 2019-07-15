@@ -1,4 +1,6 @@
-﻿namespace BulwarkStudios.GameSystems.Platform {
+﻿using UnityEngine;
+
+namespace BulwarkStudios.GameSystems.Platform {
 
     public class PlatformAchievement {
 

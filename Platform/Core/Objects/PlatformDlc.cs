@@ -1,11 +1,21 @@
 ﻿namespace BulwarkStudios.GameSystems.Platform {
 
-    public class PlatformDlc {
+    public struct PlatformDlc {
+
+        /// <summary>
+        /// DLC Steam ID
+        /// </summary>
+        public string name;
 
         /// <summary>
         /// DLC Steam ID
         /// </summary>
         public uint steamAppDlcId;
+
+        /// <summary>
+        /// Steam store url
+        /// </summary>
+        public string steamUrlStore;
 
         /// <summary>
         /// DLC Origin Tag

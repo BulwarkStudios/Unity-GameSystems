@@ -1,5 +1,5 @@
-﻿#if EDITOR_BUILD
-
+﻿using System;
+#if EDITOR_BUILD
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -50,6 +50,19 @@ namespace BulwarkStudios.GameSystems.Platform {
         /// </summary>
         protected override bool HasDlc(PlatformDlc dlc) {
             return dlc.hasInEditor;
+        }
+
+        /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        protected override void BuyDlc(PlatformDlc dlc, System.Action<PlatformDlcResult> result) {
+
+            if (result != null) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Not implemented"));
+            }
+
         }
 
         /// <summary>

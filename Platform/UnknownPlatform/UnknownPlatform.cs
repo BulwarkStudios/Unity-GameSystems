@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Platform {
@@ -45,6 +46,19 @@ namespace BulwarkStudios.GameSystems.Platform {
         /// </summary>
         protected override bool HasDlc(PlatformDlc dlc) {
             return false;
+        }
+
+        /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        protected override void BuyDlc(PlatformDlc dlc, Action<PlatformDlcResult> result) {
+
+            if (result != null) {
+                result(new PlatformDlcResult(PlatformDlcResult.STATE.FAIL, "Not implemented"));
+            }
+
         }
 
         /// <summary>
