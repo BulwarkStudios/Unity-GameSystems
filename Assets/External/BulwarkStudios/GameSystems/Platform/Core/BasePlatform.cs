@@ -49,6 +49,13 @@ namespace BulwarkStudios.GameSystems.Platform {
         protected abstract bool HasDlc(PlatformDlc dlc);
 
         /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        protected abstract void BuyDlc(PlatformDlc dlc, Action<PlatformDlcResult> result);
+
+        /// <summary>
         /// Reset all achievements
         /// </summary>
         protected abstract void ResetAllAchievements();
@@ -180,6 +187,15 @@ namespace BulwarkStudios.GameSystems.Platform {
         /// <param name="dlc"></param>
         bool IPlatform.HasDlc(PlatformDlc dlc) {
             return HasDlc(dlc);
+        }
+
+        /// <summary>
+        /// Buy a Dlc
+        /// </summary>
+        /// <param name="dlc"></param>
+        /// <param name="result"></param>
+        void IPlatform.BuyDlc(PlatformDlc dlc, Action<PlatformDlcResult> result) {
+            BuyDlc(dlc, result);
         }
 
         /// <summary>
