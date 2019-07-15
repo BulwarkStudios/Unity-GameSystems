@@ -626,6 +626,10 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// <returns></returns>
         private static bool HasContext(ScriptableObject context, int layerIndex = -1) {
 
+            if (Instance == null || Instance.GetContextList(layerIndex) == null) {
+                return false;
+            }
+
             if (Instance.GetContextList(layerIndex).Contains(context)) {
                 return true;
             }
