@@ -5,7 +5,13 @@
         /// <summary>
         /// Result state
         /// </summary>
-        public enum STATE { SUCCESS, FAIL }
+        public enum STATE {
+
+            SUCCESS,
+
+            FAIL
+
+        }
 
         /// <summary>
         /// Result state

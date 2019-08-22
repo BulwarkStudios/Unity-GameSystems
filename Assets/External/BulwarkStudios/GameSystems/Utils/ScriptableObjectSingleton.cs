@@ -7,13 +7,11 @@ namespace BulwarkStudios.GameSystems.Utils {
 
     public abstract class ScriptableObjectSingleton<T> : ScriptableObject, IScriptableObjectSingleton
         where T : ScriptableObject, new() {
-        
+
         protected static T instance;
 
         public static T Instance {
-            get {               
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿#if GOOGLE_PLAY_BUILD
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;

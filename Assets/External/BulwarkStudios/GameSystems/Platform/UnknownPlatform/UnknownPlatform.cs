@@ -4,9 +4,7 @@ using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Platform {
 
-    public class UnknownPlatformConfig : IUnknownPlatformConfig {
-
-    }
+    public class UnknownPlatformConfig : IUnknownPlatformConfig { }
 
     public sealed class UnknownPlatform : BasePlatform<IUnknownPlatformConfig> {
 

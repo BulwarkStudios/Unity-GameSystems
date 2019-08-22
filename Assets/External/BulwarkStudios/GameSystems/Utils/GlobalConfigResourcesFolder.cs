@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Sirenix.Utilities {
+
     using System.IO;
     using System.Linq;
     using UnityEngine;
@@ -39,7 +40,9 @@ namespace Sirenix.Utilities {
     /// }
     /// </code>
     /// </example>
-    public abstract class GlobalConfigResourcesFolder<T> : ScriptableObject where T : GlobalConfigResourcesFolder<T>, new() {
+    public abstract class GlobalConfigResourcesFolder<T> : ScriptableObject
+        where T : GlobalConfigResourcesFolder<T>, new() {
+
         private static GlobalConfigAttribute configAttribute;
 
         // Referenced via reflection by EditorOnlyModeConfig
@@ -63,9 +66,7 @@ namespace Sirenix.Utilities {
         /// Gets a value indicating whether this instance has instance loaded.
         /// </summary>
         public static bool HasInstanceLoaded {
-            get {
-                return GlobalConfigResourcesFolder<T>.instance != null;
-            }
+            get { return GlobalConfigResourcesFolder<T>.instance != null; }
         }
 
         /// <summary>
@@ -80,23 +81,30 @@ namespace Sirenix.Utilities {
                     T inst = GlobalConfigResourcesFolder<T>.instance;
 
 #if UNITY_EDITOR
-                    string fullPath = Application.dataPath + "/" + ConfigAttribute.AssetPath + typeof(T).GetNiceName() + ".asset";
+                    string fullPath = Application.dataPath + "/" + ConfigAttribute.AssetPath + typeof(T).GetNiceName() +
+                                      ".asset";
 
                     if (inst == null && UnityEditor.EditorPrefs.HasKey("PREVENT_SIRENIX_FILE_GENERATION")) {
-                        Debug.LogWarning(ConfigAttribute.AssetPath + typeof(T).GetNiceName() + ".asset" + " was prevented from being generated because the PREVENT_SIRENIX_FILE_GENERATION key was defined in Unity's EditorPrefs.");
+                        Debug.LogWarning(ConfigAttribute.AssetPath + typeof(T).GetNiceName() + ".asset" +
+                                         " was prevented from being generated because the PREVENT_SIRENIX_FILE_GENERATION key was defined in Unity's EditorPrefs.");
+
                         GlobalConfigResourcesFolder<T>.instance = ScriptableObject.CreateInstance<T>();
                         return GlobalConfigResourcesFolder<T>.instance;
                     }
 
                     if (inst == null) {
-                        if (File.Exists(fullPath) && UnityEditor.EditorSettings.serializationMode == UnityEditor.SerializationMode.ForceText) {
+                        if (File.Exists(fullPath) && UnityEditor.EditorSettings.serializationMode ==
+                            UnityEditor.SerializationMode.ForceText) {
                             if (Editor.AssetScriptGuidUtility.TryUpdateAssetScriptGuid(fullPath, typeof(T))) {
-                                Debug.Log("Could not load config asset at first, but successfully detected forced text asset serialization, and corrected the config asset m_Script guid.");
+                                Debug.Log(
+                                    "Could not load config asset at first, but successfully detected forced text asset serialization, and corrected the config asset m_Script guid.");
+
                                 GlobalConfigResourcesFolder<T>.LoadInstanceIfAssetExists();
                                 inst = GlobalConfigResourcesFolder<T>.instance;
                             }
                             else {
-                                Debug.LogWarning("Could not load config asset, and failed to auto-correct config asset m_Script guid.");
+                                Debug.LogWarning(
+                                    "Could not load config asset, and failed to auto-correct config asset m_Script guid.");
                             }
                         }
                     }
@@ -117,9 +125,11 @@ namespace Sirenix.Utilities {
 
                         if (File.Exists(fullPath)) {
                             Debug.LogWarning(
-                                "Could not load config asset of type " + niceName + " from project path '" + assetPath + "', " +
+                                "Could not load config asset of type " + niceName + " from project path '" + assetPath +
+                                "', " +
                                 "but an asset file already exists at the path, so could not create a new asset either. The config " +
-                                "asset for '" + niceName + "' has been lost, probably due to an invalid m_Script guid. Set forced " +
+                                "asset for '" + niceName +
+                                "' has been lost, probably due to an invalid m_Script guid. Set forced " +
                                 "text serialization in Edit -> Project Settings -> Editor -> Asset Serialization -> Mode and trigger " +
                                 "a script reload to allow Odin to auto-correct this.");
                         }
@@ -149,14 +159,19 @@ namespace Sirenix.Utilities {
             //Debug.Log("GetResourcesPath(ConfigAttribute.AssetPath) + niceName " + GetResourcesPath(ConfigAttribute.AssetPath) + typeof(T).GetNiceName());
 
             string niceName = typeof(T).GetNiceName();
-            GlobalConfigResourcesFolder<T>.instance = Resources.Load<T>(GetResourcesPath(ConfigAttribute.AssetPath) + niceName);
+
+            GlobalConfigResourcesFolder<T>.instance =
+                Resources.Load<T>(GetResourcesPath(ConfigAttribute.AssetPath) + niceName);
 #if UNITY_EDITOR
 
             // If it was relocated
             if (GlobalConfigResourcesFolder<T>.instance == null) {
                 var relocatedScriptableObject = UnityEditor.AssetDatabase.FindAssets("t:" + typeof(T).Name);
+
                 if (relocatedScriptableObject.Length > 0) {
-                    GlobalConfigResourcesFolder<T>.instance = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(UnityEditor.AssetDatabase.GUIDToAssetPath(relocatedScriptableObject[0]));
+                    GlobalConfigResourcesFolder<T>.instance =
+                        UnityEditor.AssetDatabase.LoadAssetAtPath<T>(
+                            UnityEditor.AssetDatabase.GUIDToAssetPath(relocatedScriptableObject[0]));
                 }
             }
 #endif
@@ -172,6 +187,7 @@ namespace Sirenix.Utilities {
 
             // Find nearest resource folder.
             var currDir = new DirectoryInfo(fullPath);
+
             while (currDir.Name.Equals("resources", StringComparison.OrdinalIgnoreCase) == false) {
                 folders.Push(currDir.Name);
                 currDir = currDir.Parent;
@@ -191,17 +207,22 @@ namespace Sirenix.Utilities {
         public void OpenInEditor() {
 #if UNITY_EDITOR
 
-            var windowType = AssemblyUtilities.GetTypeByCachedFullName("Sirenix.OdinInspector.Editor.SirenixPreferencesWindow");
+            var windowType =
+                AssemblyUtilities.GetTypeByCachedFullName("Sirenix.OdinInspector.Editor.SirenixPreferencesWindow");
+
             if (windowType != null) {
                 windowType.GetMethods().Where(x => x.Name == "OpenWindow" && x.GetParameters().Length == 1).First()
-                    .Invoke(null, new object[] { this });
+                    .Invoke(null, new object[] {this});
             }
             else {
-                Debug.LogError("Failed to open window, could not find Sirenix.OdinInspector.Editor.SirenixPreferencesWindow");
+                Debug.LogError(
+                    "Failed to open window, could not find Sirenix.OdinInspector.Editor.SirenixPreferencesWindow");
             }
 #else
             Debug.Log("Downloading, installing and launching the Unity Editor so we can open this config window in the editor, please stand by until pigs can fly and hell has frozen over...");
 #endif
         }
+
     }
+
 }

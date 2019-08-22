@@ -69,9 +69,11 @@ namespace BulwarkStudios.GameSystems.Ui {
             if (GameContext == null) {
                 return false;
             }
+
             if (GameContextSystem.HasContext(GameContext)) {
                 return true;
             }
+
             return false;
         }
 

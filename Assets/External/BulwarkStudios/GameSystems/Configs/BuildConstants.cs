@@ -1,5 +1,5 @@
 ﻿namespace BulwarkStudios.GameSystems.Configs {
-    
+
     public static class BuildConstants {
 
         /// <summary>

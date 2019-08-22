@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -133,8 +132,6 @@ namespace BulwarkStudios.GameSystems.Platform {
         /// </summary>
         /// <param name="name"></param>
         void AnalyticsTutorialSkip(string name);
-
-        
 
     }
 

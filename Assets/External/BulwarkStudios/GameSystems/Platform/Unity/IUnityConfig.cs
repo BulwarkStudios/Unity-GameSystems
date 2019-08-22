@@ -1,7 +1,5 @@
 namespace BulwarkStudios.GameSystems.Platform {
 
-    public interface IUnityConfig : IPlatformConfig {
-
-    }
+    public interface IUnityConfig : IPlatformConfig { }
 
 }

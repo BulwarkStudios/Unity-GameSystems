@@ -40,7 +40,7 @@ namespace BulwarkStudios.GameSystems.Ui {
                 return true;
             }
 
-            return (bool)field.GetValue(buttonEffect);
+            return (bool) field.GetValue(buttonEffect);
 #else
             return true;
 #endif

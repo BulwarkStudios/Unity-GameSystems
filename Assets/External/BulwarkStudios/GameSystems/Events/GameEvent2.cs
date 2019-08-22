@@ -5,8 +5,9 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Events {
-    
-    public abstract class GameEvent<T, P1, P2> : ScriptableObjectSingleton<T>, IGameEvent where T : GameEvent<T, P1, P2>, new() {
+
+    public abstract class GameEvent<T, P1, P2> : ScriptableObjectSingleton<T>, IGameEvent
+        where T : GameEvent<T, P1, P2>, new() {
 
         /// <summary>
         /// Get the instance
@@ -22,7 +23,8 @@ namespace BulwarkStudios.GameSystems.Events {
         /// Deactive the logs?
         /// Get the instance
         /// </summary>
-        [SerializeField] private bool deactiveLogs = false;
+        [SerializeField]
+        private bool deactiveLogs = false;
 
 #if UNITY_EDITOR
         /// <summary>
