@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 using UnityEditor;
+
 #endif
 
 namespace BulwarkStudios.GameSystems.Ui {
@@ -17,6 +17,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
             // Is there a xcene in the path ?
             bool hasScene = false;
+
             foreach (string path in paths) {
                 if (path.Contains(".unity")) {
                     hasScene = true;
@@ -52,19 +53,66 @@ namespace BulwarkStudios.GameSystems.Ui {
 #endif
 
     [RequireComponent(typeof(Selectable))]
-    public class UiButton : MonoBehaviour, IDeselectHandler, IMoveHandler, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler, IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IScrollHandler {
+    public class UiButton : MonoBehaviour, IDeselectHandler, IMoveHandler, IPointerClickHandler, IPointerDownHandler,
+        IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler,
+        IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,
+        IScrollHandler {
 
         /// <summary>
         /// Button state
         /// </summary>
         public enum STATE {
-            NORMAL, HIGHLIGHTED, PRESSED, DISABLED, CUSTOM1, CUSTOM2,
+
+            NORMAL,
+
+            HIGHLIGHTED,
+
+            PRESSED,
+
+            DISABLED,
+
+            CUSTOM1,
+
+            CUSTOM2,
+
         }
 
         /// <summary>
         /// Events available
         /// </summary>
-        public enum EVENT { ON_DESELECT, ON_MOVE, ON_POINTER_CLICK, ON_POINTER_DOWN, ON_POINTER_ENTER, ON_POINTER_EXIT, ON_POINTER_UP, ON_SELECT, ON_SUBMIT, ON_INITIALIZE_POTENTIAL_DRAG, ON_BEGIN_DRAG, ON_DRAG, ON_END_DRAG, ON_DROP, ON_SCROLL }
+        public enum EVENT {
+
+            ON_DESELECT,
+
+            ON_MOVE,
+
+            ON_POINTER_CLICK,
+
+            ON_POINTER_DOWN,
+
+            ON_POINTER_ENTER,
+
+            ON_POINTER_EXIT,
+
+            ON_POINTER_UP,
+
+            ON_SELECT,
+
+            ON_SUBMIT,
+
+            ON_INITIALIZE_POTENTIAL_DRAG,
+
+            ON_BEGIN_DRAG,
+
+            ON_DRAG,
+
+            ON_END_DRAG,
+
+            ON_DROP,
+
+            ON_SCROLL
+
+        }
 
         /// <summary>
         /// Ref to the selectable
@@ -148,7 +196,8 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <summary>
         /// Current state
         /// </summary>
-        [ShowInInspector, System.NonSerialized, HideLabel, OnValueChanged(nameof(PreviewStateChange)), EnumToggleButtons, Title("Preview State")]
+        [ShowInInspector, System.NonSerialized, HideLabel, OnValueChanged(nameof(PreviewStateChange)),
+         EnumToggleButtons, Title("Preview State")]
         public STATE previewState = STATE.NORMAL;
 
         /// <summary>
@@ -213,15 +262,17 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// Check the constraints
         /// </summary>
         public bool ConstraintsValid() {
-            
+
             foreach (UiButtonConstraint constraint in GetComponents<UiButtonConstraint>()) {
                 if (!constraint.enabled) {
                     continue;
                 }
+
                 if (!constraint.IsValid()) {
                     return false;
                 }
             }
+
             return true;
 
         }
@@ -312,7 +363,7 @@ namespace BulwarkStudios.GameSystems.Ui {
             foreach (IUiButtonEffect buttonState in GetComponents<IUiButtonEffect>()) {
                 buttonState.PreviewState(previewState);
             }
-            
+
             gameObject.SetActive(!gameObject.activeSelf);
             gameObject.SetActive(!gameObject.activeSelf);
         }

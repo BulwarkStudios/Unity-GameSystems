@@ -1,5 +1,5 @@
 ﻿namespace BulwarkStudios.GameSystems.Libraries {
-    
+
     /// <summary>
     /// Constant
     /// </summary>

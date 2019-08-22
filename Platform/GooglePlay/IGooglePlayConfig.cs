@@ -1,7 +1,5 @@
 namespace BulwarkStudios.GameSystems.Platform {
 
-    public interface IGooglePlayConfig : IPlatformConfig {
-
-    }
+    public interface IGooglePlayConfig : IPlatformConfig { }
 
 }

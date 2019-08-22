@@ -12,7 +12,8 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <param name="button"></param>
         /// <param name="evt"></param>
         /// <param name="eventData"></param>
-        protected override void EventTriggered(UiButtonEventDataUnityEvent data, UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
+        protected override void EventTriggered(UiButtonEventDataUnityEvent data, UiButton button, UiButton.EVENT evt,
+            BaseEventData eventData) {
 
             data.unityEvent?.Invoke(eventData);
 

@@ -1,5 +1,5 @@
 ﻿namespace BulwarkStudios.GameSystems.Contexts {
-    
+
     /// <summary>
     /// Constant
     /// </summary>

@@ -6,7 +6,7 @@ using System.Reflection;
 using Sirenix.Utilities;
 
 namespace BulwarkStudios.GameSystems.Utils {
-    
+
     public static class ReflectionUtils {
 
         public static HashSet<Type> ListAllDerviedTypes(Type type) {
@@ -32,7 +32,7 @@ namespace BulwarkStudios.GameSystems.Utils {
             if (type1.IsGenericType) {
                 GetDerivedFromGeneric(types, type1, ref results);
             }
-            else { 
+            else {
                 GetDerivedFromNonGeneric(types, type1, ref results);
             }
         }
@@ -41,17 +41,19 @@ namespace BulwarkStudios.GameSystems.Utils {
             var derivedTypes = types
                 .Where(t => t.BaseType != null && t.BaseType.IsGenericType &&
                             t.BaseType.GetGenericTypeDefinition() == type).ToList();
+
             results.AddRange(derivedTypes);
+
             foreach (Type derivedType in derivedTypes) {
                 GetAllDerivedTypesRecursively(types, derivedType, ref results);
             }
         }
 
-
         private static void GetDerivedFromNonGeneric(Type[] types, Type type, ref List<Type> results) {
             var derivedTypes = types.Where(t => t != type && type.IsAssignableFrom(t)).ToList();
 
             results.AddRange(derivedTypes);
+
             foreach (Type derivedType in derivedTypes) {
                 GetAllDerivedTypesRecursively(types, derivedType, ref results);
             }

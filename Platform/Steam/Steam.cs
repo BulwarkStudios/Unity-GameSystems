@@ -1,5 +1,4 @@
 ﻿#if STEAM_BUILD
-
 using System;
 using System.Collections.Generic;
 using Facepunch.Steamworks;

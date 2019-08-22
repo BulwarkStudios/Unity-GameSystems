@@ -61,9 +61,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// End
         /// </summary>
         /// <param name="state"></param>
-        protected override void End(UiButton.STATE state) {
-            
-        }
+        protected override void End(UiButton.STATE state) { }
 
     }
 

@@ -7,7 +7,8 @@ namespace Mechanicus.UI {
 
     public class UiButtonEventAudioOneShot : UiButtonEvent<UiButtonEventDataAudioOneShot> {
 
-        [SerializeField] private AudioSource audioSource = null;
+        [SerializeField]
+        private AudioSource audioSource = null;
 
         /// <summary>
         /// Event triggered
@@ -15,7 +16,8 @@ namespace Mechanicus.UI {
         /// <param name="data"></param>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        protected override void EventTriggered(UiButtonEventDataAudioOneShot data, UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
+        protected override void EventTriggered(UiButtonEventDataAudioOneShot data, UiButton button, UiButton.EVENT evt,
+            BaseEventData eventData) {
 
             if (audioSource == null || data.audioClip == null) {
                 return;

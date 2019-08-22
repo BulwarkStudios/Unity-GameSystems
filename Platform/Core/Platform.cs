@@ -59,7 +59,7 @@ namespace BulwarkStudios.GameSystems.Platform {
                 }
                 catch (System.Exception e) {
                     Debug.Log(e);
-                }           
+                }
             }
         }
 

@@ -9,6 +9,7 @@ using Sirenix.Utilities;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace BulwarkStudios.GameSystems.Libraries {
@@ -19,6 +20,7 @@ namespace BulwarkStudios.GameSystems.Libraries {
         /// <summary>
         /// List of all libraries
         /// </summary>
+
         //[ReadOnly]
         public List<ScriptableObject> availableLibraries = new List<ScriptableObject>();
 
@@ -72,8 +74,14 @@ namespace BulwarkStudios.GameSystems.Libraries {
                             continue;
                         }
 
+                        // Skip generic parameters
+                        if (type.ContainsGenericParameters) {
+                            continue;
+                        }
+
                         // Type already here
                         bool alreadyAdded = false;
+
                         foreach (ScriptableObject so in Instance.availableLibraries) {
 
                             if (so == null) {
@@ -91,22 +99,27 @@ namespace BulwarkStudios.GameSystems.Libraries {
 
                             // File already created?
                             string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
-                                "Assets" + Path.DirectorySeparatorChar + GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
+                                "Assets" + Path.DirectorySeparatorChar +
+                                GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
                             });
 
                             // Check file names
                             foreach (string guid in guids) {
                                 string p = AssetDatabase.GUIDToAssetPath(guid);
                                 ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
+
                                 if (sObj == null || !sObj.name.Contains(type.Name)) {
                                     continue;
                                 }
 
-                                GameLogSystem.Info("File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(), GameLibraryConstants.LOG_TAG);
+                                GameLogSystem.Info(
+                                    "File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(),
+                                    GameLibraryConstants.LOG_TAG);
 
                                 if (!ContainsFile(sObj.name)) {
                                     data.Add(sObj);
                                 }
+
                                 alreadyAdded = true;
                                 break;
                             }
@@ -149,7 +162,7 @@ namespace BulwarkStudios.GameSystems.Libraries {
                             sObj.GetType() == typeof(UnityEngine.Object)) {
 
                             Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
-                                                       path + " object: " + sObj);
+                                           path + " object: " + sObj);
 
                             AssetDatabase.DeleteAsset(path);
 
@@ -209,9 +222,11 @@ namespace BulwarkStudios.GameSystems.Libraries {
             // Setup singletons
             foreach (ScriptableObject availableLibrary in availableLibraries) {
                 IScriptableObjectSingleton singleton = availableLibrary as IScriptableObjectSingleton;
+
                 if (singleton == null) {
                     continue;
                 }
+
                 singleton.SetInstance(availableLibrary);
             }
 

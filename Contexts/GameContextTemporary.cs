@@ -1,9 +1,5 @@
 ﻿namespace BulwarkStudios.GameSystems.Contexts {
 
-    public class GameContextTemporary : GameContext<GameContextTemporary> {
-
-
-
-    }
+    public class GameContextTemporary : GameContext<GameContextTemporary> { }
 
 }

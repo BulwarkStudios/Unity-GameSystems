@@ -96,4 +96,5 @@ namespace BulwarkStudios.GameSystems.Ui {
         protected abstract void UpdateControl();
 
     }
+
 }

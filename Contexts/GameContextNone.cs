@@ -1,9 +1,5 @@
 ﻿namespace BulwarkStudios.GameSystems.Contexts {
 
-    public class GameContextNone : GameContext<GameContextNone> {
-
-
-
-    }
+    public class GameContextNone : GameContext<GameContextNone> { }
 
 }

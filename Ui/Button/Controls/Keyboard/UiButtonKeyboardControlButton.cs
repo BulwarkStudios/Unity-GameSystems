@@ -43,6 +43,6 @@ namespace BulwarkStudios.GameSystems.Ui {
 
         }
 
-
     }
+
 }

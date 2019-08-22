@@ -144,7 +144,7 @@ namespace BulwarkStudios.GameSystems.Platform {
         void IPlatform.Initialize(IPlatformConfig config) {
 
             // Save the config
-            this.config = (T)config;
+            this.config = (T) config;
 
             // Initialize
             Initialize();
@@ -313,8 +313,6 @@ namespace BulwarkStudios.GameSystems.Platform {
         }
 
         #endregion
-
-
 
     }
 

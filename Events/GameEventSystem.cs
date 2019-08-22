@@ -7,9 +7,9 @@ using BulwarkStudios.GameSystems.Utils;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace BulwarkStudios.GameSystems.Events {
@@ -20,6 +20,7 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <summary>
         /// List of all contexts
         /// </summary>
+
         //[ReadOnly]
         public List<ScriptableObject> availableEvents = new List<ScriptableObject>();
 
@@ -122,8 +123,14 @@ namespace BulwarkStudios.GameSystems.Events {
                     continue;
                 }
 
+                // Skip generic parameters
+                if (type.ContainsGenericParameters) {
+                    continue;
+                }
+
                 // Type already here
                 bool alreadyAdded = false;
+
                 foreach (ScriptableObject so in Instance.availableEvents) {
 
                     if (so == null) {
@@ -141,22 +148,27 @@ namespace BulwarkStudios.GameSystems.Events {
 
                     // File already created?
                     string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
-                        "Assets" + Path.DirectorySeparatorChar + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
+                        "Assets" + Path.DirectorySeparatorChar +
+                        GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
                     });
 
                     // Check file names
                     foreach (string guid in guids) {
                         string p = AssetDatabase.GUIDToAssetPath(guid);
                         ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
+
                         if (sObj == null || !sObj.name.Contains(type.Name)) {
                             continue;
                         }
 
-                        GameLogSystem.Info("File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(), GameEventConstants.LOG_TAG);
+                        GameLogSystem.Info(
+                            "File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(),
+                            GameEventConstants.LOG_TAG);
 
                         if (!ContainsFile(sObj.name)) {
                             data.Add(sObj);
                         }
+
                         alreadyAdded = true;
                         break;
                     }
@@ -168,7 +180,8 @@ namespace BulwarkStudios.GameSystems.Events {
                     continue;
                 }
 
-                MethodInfo method = type.GetMethod("EditorInitialize", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo method = type.GetMethod("EditorInitialize",
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
                 // Add context
                 if (method != null) {

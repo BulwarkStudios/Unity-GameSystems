@@ -12,10 +12,8 @@ namespace Mechanicus.UI {
         /// <param name="data"></param>
         /// <param name="button"></param>
         /// <param name="evt"></param>
-        protected override void EventTriggered(UiButtonEventDataSample data, UiButton button, UiButton.EVENT evt, BaseEventData eventData) {
-
-
-        }
+        protected override void EventTriggered(UiButtonEventDataSample data, UiButton button, UiButton.EVENT evt,
+            BaseEventData eventData) { }
 
     }
 

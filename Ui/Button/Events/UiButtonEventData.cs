@@ -3,8 +3,6 @@
 namespace BulwarkStudios.GameSystems.Ui {
 
     [System.Serializable, HideLabel]
-    public abstract class UiButtonEventData {
-
-    }
+    public abstract class UiButtonEventData { }
 
 }

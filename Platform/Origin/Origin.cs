@@ -1,5 +1,4 @@
 ﻿#if ORIGIN_BUILD
-
 using System.Collections.Generic;
 using Origin;
 using Origin.Data;
