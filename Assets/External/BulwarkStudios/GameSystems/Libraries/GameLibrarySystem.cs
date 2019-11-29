@@ -62,6 +62,10 @@ namespace BulwarkStudios.GameSystems.Libraries {
         [UnityEditor.Callbacks.DidReloadScripts(-50)]
         private static void OnScriptsReloaded() {
 
+            if (EditorApplication.isPlayingOrWillChangePlaymode) {
+                return;
+            }
+
             EditorApplication.delayCall += () => {
                 EditorApplication.delayCall += () => {
 
