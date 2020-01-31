@@ -81,6 +81,10 @@ namespace BulwarkStudios.GameSystems.Libraries {
                         continue;
                     }
 
+                    if (type.ContainsGenericParameters) {
+                        continue;
+                    }
+
                     // Type already here
                     bool alreadyAdded = false;
                     foreach (ScriptableObject so in Instance.availableLibraries) {
