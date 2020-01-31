@@ -10,7 +10,6 @@ using UnityEngine;
 using JetBrains.Annotations;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 namespace BulwarkStudios.GameSystems.Contexts {
@@ -142,33 +141,28 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// When the compiler has ended clear data
         /// </summary>
         [UnityEditor.Callbacks.DidReloadScripts(-50)]
+        [Button("Refresh Contexts", ButtonSizes.Medium)]
         private static void OnScriptsReloaded() {
-
-            if (EditorApplication.isPlayingOrWillChangePlaymode) {
-                return;
-            }
 
             EditorApplication.delayCall += () => {
                 EditorApplication.delayCall += () => {
 
+                    GameContextSystem instance = GetAssetInstance();
+
+                    bool dataChanged = false;
+
                     List<ScriptableObject> data = new List<ScriptableObject>();
 
                     // Check all context and create contexts
-                    foreach (Type type in ReflectionUtils.ListAllDerviedTypes(typeof(GameContext<>))) {
+                    foreach (Type type in ReflectionUtils.ListAllDerivedTypes(typeof(GameContext<>))) {
 
                         if (type == null) {
                             continue;
                         }
 
-                        // Skip generic parameters
-                        if (type.ContainsGenericParameters) {
-                            continue;
-                        }
-
                         // Type already here
                         bool alreadyAdded = false;
-
-                        foreach (ScriptableObject so in Instance.availableContexts) {
+                        foreach (ScriptableObject so in instance.availableContexts) {
 
                             if (so == null) {
                                 continue;
@@ -184,28 +178,21 @@ namespace BulwarkStudios.GameSystems.Contexts {
                         if (!alreadyAdded) {
 
                             // File already created?
-                            string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
-                                "Assets" + Path.DirectorySeparatorChar +
-                                GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER
+                            string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new [] {
+                                "Assets" + Path.DirectorySeparatorChar + GameContextConstants.RESOURCE_GAMESYSTEM_CONTEXT_LIST_FOLDER
                             });
 
                             // Check file names
                             foreach (string guid in guids) {
                                 string p = AssetDatabase.GUIDToAssetPath(guid);
                                 ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
-
                                 if (sObj == null || !sObj.name.Contains(type.Name)) {
                                     continue;
                                 }
 
-                                GameLogSystem.Info(
-                                    "File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(),
-                                    GameContextConstants.LOG_TAG);
+                                GameLogSystem.Info("File already exist: " + sObj, GameContextConstants.LOG_TAG);
 
-                                if (!ContainsFile(sObj.name)) {
-                                    data.Add(sObj);
-                                }
-
+                                data.Add(sObj);
                                 alreadyAdded = true;
                                 break;
                             }
@@ -223,13 +210,18 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
                         // Add context
                         if (method != null) {
+                            dataChanged = true;
                             object context = method.Invoke(null, null);
                             data.Add(context as ScriptableObject);
                         }
 
                     }
 
-                    Instance.availableContexts = data;
+                    if (dataChanged) {
+                        instance.availableContexts = data;
+                        EditorUtility.SetDirty(instance);
+                        AssetDatabase.SaveAssets();
+                    }
 
                     // Remove deleted events
                     string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
@@ -243,43 +235,28 @@ namespace BulwarkStudios.GameSystems.Contexts {
                         UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
 
                         // Check if errors 
-                        if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
-                            string.IsNullOrEmpty(sObj.GetType().ToString()) ||
-                            sObj.GetType() == typeof(UnityEngine.Object)) {
+                        if (string.IsNullOrEmpty(guidsAssets1[i])
+                         || string.IsNullOrEmpty(path)
+                         || (sObj == null)
+                         || string.IsNullOrEmpty(sObj.GetType().ToString())
+                         || (sObj.GetType() == typeof(UnityEngine.Object))) {
 
-                            UnityEngine.Debug.LogError("A context has been deleted guid: " + guidsAssets1[i] +
-                                                       " path: " +
-                                                       path + " object: " + sObj);
+                            Debug.LogError("A context has been deleted guid: " + guidsAssets1[i] +
+                                           " path: " + path + " object: " + sObj);
 
                             AssetDatabase.DeleteAsset(path);
-
                         }
-
                     }
-
-                    EditorUtility.SetDirty(Instance);
-                    AssetDatabase.SaveAssets();
-
                 }; // End delay call
             }; // End delay call
 
         }
 
-        /// <summary>
-        /// Available data contains the file?
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private static bool ContainsFile(string file) {
-
-            foreach (ScriptableObject so in Instance.availableContexts) {
-                if (file.Equals(so.name)) {
-                    return true;
-                }
-            }
-
-            return false;
-
+        private static GameContextSystem GetAssetInstance() {
+            string[] systemGuids = AssetDatabase.FindAssets("t:" + typeof(GameContextSystem).Name);
+            Debug.Assert(systemGuids.Length == 1);
+            string instancePath = AssetDatabase.GUIDToAssetPath(systemGuids[0]);
+            return AssetDatabase.LoadAssetAtPath<GameContextSystem>(instancePath);
         }
 
 #endif
@@ -351,17 +328,12 @@ namespace BulwarkStudios.GameSystems.Contexts {
             // Initialize
             initialized = true;
 
-            GameLogSystem.Info("Initialiaze contexts", GameContextConstants.LOG_TAG);
+            GameLogSystem.Info("Initialize contexts", GameContextConstants.LOG_TAG);
 
             // Setup singletons
             foreach (ScriptableObject availableContext in availableContexts) {
                 IScriptableObjectSingleton singleton = availableContext as IScriptableObjectSingleton;
-
-                if (singleton == null) {
-                    continue;
-                }
-
-                singleton.SetInstance(availableContext);
+                singleton?.SetInstance(availableContext);
             }
 
             // Data
@@ -545,9 +517,10 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         public static void RemoveLayer(IGameContext context, bool resetContexts = true) {
 
-            GameLogSystem.Info("Context remove layer", GameContextConstants.LOG_TAG);
-
             if (context != null) {
+
+                GameLogSystem.Info("Context remove layer " + context.GetScriptableObject().name, GameContextConstants.LOG_TAG);
+
                 if (!HasContext(context.GetScriptableObject())) {
                     GameLogSystem.Info("Context remove layer didnot have the requested context",
                         GameContextConstants.LOG_TAG);

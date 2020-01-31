@@ -9,53 +9,66 @@ namespace BulwarkStudios.GameSystems.Utils {
 
     public static class ReflectionUtils {
 
-        public static HashSet<Type> ListAllDerviedTypes(Type type) {
+        public static HashSet<Type> ListAllDerivedTypes(Type type) {
 
             HashSet<Type> results = new HashSet<Type>();
 
+            var baseAssembly = type.Assembly;
+            var baseAssembyName = baseAssembly.GetName();
+
             foreach (Assembly assembly in AssemblyUtilities.GetAllAssemblies()) {
 
-                Type[] types = assembly.GetTypes();
+                var isDependent = (assembly == baseAssembly);
 
-                List<Type> data = new List<Type>();
-                GetAllDerivedTypesRecursively(types, type, ref data);
+                if (!isDependent) {
+                    foreach (var reference in assembly.GetReferencedAssemblies()) {
+                        if (reference.FullName == baseAssembyName.FullName) {
+                            isDependent = true;
+                            break;
+                        }
+                    }
+                }
 
-                results.UnionWith(data);
-
+                if (isDependent)
+                    GetAllDerivedTypesRecursively(assembly.GetTypes(), type, results);
             }
 
             return results;
 
         }
 
-        private static void GetAllDerivedTypesRecursively(Type[] types, Type type1, ref List<Type> results) {
-            if (type1.IsGenericType) {
-                GetDerivedFromGeneric(types, type1, ref results);
+        private static void GetAllDerivedTypesRecursively(Type[] types, Type type, HashSet<Type> results) {
+            if (type.IsGenericType) {
+                GetDerivedFromGeneric(types, type, results);
             }
-            else {
-                GetDerivedFromNonGeneric(types, type1, ref results);
-            }
-        }
-
-        private static void GetDerivedFromGeneric(Type[] types, Type type, ref List<Type> results) {
-            var derivedTypes = types
-                .Where(t => t.BaseType != null && t.BaseType.IsGenericType &&
-                            t.BaseType.GetGenericTypeDefinition() == type).ToList();
-
-            results.AddRange(derivedTypes);
-
-            foreach (Type derivedType in derivedTypes) {
-                GetAllDerivedTypesRecursively(types, derivedType, ref results);
+            else { 
+                GetDerivedFromNonGeneric(types, type, results);
             }
         }
 
-        private static void GetDerivedFromNonGeneric(Type[] types, Type type, ref List<Type> results) {
-            var derivedTypes = types.Where(t => t != type && type.IsAssignableFrom(t)).ToList();
+        private static void GetDerivedFromGeneric(Type[] types, Type type, HashSet<Type> results) {
+            foreach (var t in types) {
 
-            results.AddRange(derivedTypes);
+                var baseType = t.BaseType;
 
-            foreach (Type derivedType in derivedTypes) {
-                GetAllDerivedTypesRecursively(types, derivedType, ref results);
+                if ((baseType != null)
+                    && baseType.IsGenericType
+                    && (baseType.GetGenericTypeDefinition() == type)) {
+
+                    GetAllDerivedTypesRecursively(types, t, results);
+                    results.Add(t);
+                }
+            }
+        }
+
+        private static void GetDerivedFromNonGeneric(Type[] types, Type type, HashSet<Type> results) {
+            foreach (var t in types) {
+                if ((t != type)
+                    && type.IsAssignableFrom(t)) {
+
+                    GetAllDerivedTypesRecursively(types, t, results);
+                    results.Add(t);
+                }
             }
         }
 
