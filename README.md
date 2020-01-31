@@ -4,7 +4,7 @@ Developped with Unity 2019.3.0f6
 
 - Require Odin Inspector (version used: 2.1.9): https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041
 
-- Require TextMesh Pro: Package Manager TextMesh Pro 1.3.0
+- Require TextMesh Pro: Package Manager TextMesh Pro 2.0.0
 
 # How to make a Unity Package Manager release
 
