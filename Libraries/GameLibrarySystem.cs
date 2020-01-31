@@ -69,89 +69,86 @@ namespace BulwarkStudios.GameSystems.Libraries {
             EditorApplication.delayCall += () => {
                 EditorApplication.delayCall += () => {
 
-                    List<ScriptableObject> data = new List<ScriptableObject>();
+                List<ScriptableObject> data = new List<ScriptableObject>();
+                
+                var dataModified = false;
+                var assetListFolder = "Assets/" + GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER;
 
-                    // Check all context and create libraries
-                    foreach (Type type in ReflectionUtils.ListAllDerviedTypes(typeof(GameLibrary<>))) {
+                // Check all context and create libraries
+                foreach (Type type in ReflectionUtils.ListAllDerivedTypes(typeof(GameLibrary<>))) {
 
-                        if (type == null) {
+                    if (type == null) {
+                        continue;
+                    }
+
+                    // Type already here
+                    bool alreadyAdded = false;
+                    foreach (ScriptableObject so in Instance.availableLibraries) {
+
+                        if (so == null) {
                             continue;
                         }
 
-                        // Skip generic parameters
-                        if (type.ContainsGenericParameters) {
-                            continue;
+                        if (so.GetType() == type) {
+                            alreadyAdded = true;
+                            data.Add(so);
+                            break;
                         }
+                    }
 
-                        // Type already here
-                        bool alreadyAdded = false;
+                    if (Directory.Exists(assetListFolder) && !alreadyAdded) {
 
-                        foreach (ScriptableObject so in Instance.availableLibraries) {
+                        // File already created?
+                        string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
+                            assetListFolder
+                        });
 
-                            if (so == null) {
+                        // Check file names
+                        foreach (string guid in guids) {
+                            string p = AssetDatabase.GUIDToAssetPath(guid);
+                            ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
+                            if (sObj == null || !sObj.name.Contains(type.Name)) {
                                 continue;
                             }
 
-                            if (so.GetType() == type) {
-                                alreadyAdded = true;
-                                data.Add(so);
-                                break;
+                            GameLogSystem.Info("File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(), GameLibraryConstants.LOG_TAG);
+
+                            if (!ContainsFile(sObj.name)) {
+                                data.Add(sObj);
                             }
+                            alreadyAdded = true;
+                            break;
                         }
-
-                        if (!alreadyAdded) {
-
-                            // File already created?
-                            string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
-                                "Assets" + Path.DirectorySeparatorChar +
-                                GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
-                            });
-
-                            // Check file names
-                            foreach (string guid in guids) {
-                                string p = AssetDatabase.GUIDToAssetPath(guid);
-                                ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
-
-                                if (sObj == null || !sObj.name.Contains(type.Name)) {
-                                    continue;
-                                }
-
-                                GameLogSystem.Info(
-                                    "File already exist: " + sObj + " Added?: " + (!ContainsFile(sObj.name)).ToString(),
-                                    GameLibraryConstants.LOG_TAG);
-
-                                if (!ContainsFile(sObj.name)) {
-                                    data.Add(sObj);
-                                }
-
-                                alreadyAdded = true;
-                                break;
-                            }
-
-                        }
-
-                        // Skip if already added
-                        if (alreadyAdded) {
-                            continue;
-                        }
-
-                        MethodInfo method = type.GetMethod("EditorInitialize",
-                            BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static |
-                            BindingFlags.FlattenHierarchy);
-
-                        // Add context
-                        if (method != null) {
-                            object context = method.Invoke(null, null);
-                            data.Add(context as ScriptableObject);
-                        }
-
                     }
 
-                    Instance.availableLibraries = data;
+                    // Skip if already added
+                    if (alreadyAdded) {
+                        continue;
+                    }
 
-                    // Remove deleted events
+                    MethodInfo method = type.GetMethod("EditorInitialize",
+                        BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static |
+                        BindingFlags.FlattenHierarchy);
+
+                    // Add context
+                    if (method != null) {
+                        dataModified = false;
+                        object context = method.Invoke(null, null);
+                        data.Add(context as ScriptableObject);
+                    }
+                }
+
+                if (dataModified) {
+                    Instance.availableLibraries = data;
+                    EditorUtility.SetDirty(Instance);
+                    AssetDatabase.SaveAssets();
+                }
+
+                // Remove deleted events
+                if (Directory.Exists(assetListFolder)) {
+
                     string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
-                        "Assets/" + GameLibraryConstants.RESOURCE_GAMESYSTEM_LIBRARY_LIST_FOLDER
+                        assetListFolder
                     });
 
                     // Loop on all scriptable objects
@@ -166,16 +163,12 @@ namespace BulwarkStudios.GameSystems.Libraries {
                             sObj.GetType() == typeof(UnityEngine.Object)) {
 
                             Debug.LogError("A library has been deleted guid: " + guidsAssets1[i] + " path: " +
-                                           path + " object: " + sObj);
+                                                       path + " object: " + sObj);
 
                             AssetDatabase.DeleteAsset(path);
-
                         }
-
                     }
-
-                    EditorUtility.SetDirty(Instance);
-                    AssetDatabase.SaveAssets();
+                }
 
                 }; // End of delay call
             }; // End of delay call
@@ -221,17 +214,12 @@ namespace BulwarkStudios.GameSystems.Libraries {
             // Initialize
             initialized = true;
 
-            GameLogSystem.Info("Initialiaze libraries", GameLibraryConstants.LOG_TAG);
+            GameLogSystem.Info("Initialize libraries", GameLibraryConstants.LOG_TAG);
 
             // Setup singletons
             foreach (ScriptableObject availableLibrary in availableLibraries) {
                 IScriptableObjectSingleton singleton = availableLibrary as IScriptableObjectSingleton;
-
-                if (singleton == null) {
-                    continue;
-                }
-
-                singleton.SetInstance(availableLibrary);
+                singleton?.SetInstance(availableLibrary);
             }
 
         }
