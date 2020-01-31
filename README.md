@@ -26,22 +26,8 @@ git push origin upm --tags
 - Install Git for windows (https://git-scm.com/download/win)
 - Close Unity if open
 - Close Unity Hub if open
-- Add in your Packages/manifest.json file:
-```
-{
-  "dependencies": {
-    "com.bulwarkstudios.gamesystems": "https://github.com/BulwarkStudios/Unity-GameSystems.git#upm",
-    ...
-}
-```
-To get update in the package manager, install this extension: (https://github.com/mob-sakai/UpmGitExtension)
-```
-{
-  "dependencies": {
-    "com.coffee.upm-git-extension": "https://github.com/mob-sakai/UpmGitExtension.git#0.9.0",
-    ...
-}
-```
+- Add in the Package Manager the git url: https://github.com/BulwarkStudios/Unity-GameSystems.git#upm
+- To update the package re-enter the git url to proceed the update
 
 # Unity-GameSystems
 
