@@ -160,6 +160,10 @@ namespace BulwarkStudios.GameSystems.Contexts {
                             continue;
                         }
 
+                        if (type.ContainsGenericParameters) {
+                            continue;
+                        }
+
                         // Type already here
                         bool alreadyAdded = false;
                         foreach (ScriptableObject so in instance.availableContexts) {
