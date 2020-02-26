@@ -35,7 +35,7 @@ namespace BulwarkStudios.GameSystems.Libraries {
         /// <summary>
         /// Reset the initialisation
         /// </summary>
-        [InitializeOnLoadMethod]
+        [InitializeOnEnterPlayMode]
         static void OnProjectLoadedInEditor() {
             Instance.initialized = false;
             EditorApplication.playModeStateChanged -= PlayModeChanged;
