@@ -66,7 +66,7 @@ namespace Sirenix.Utilities {
         /// Gets a value indicating whether this instance has instance loaded.
         /// </summary>
         public static bool HasInstanceLoaded {
-            get { return GlobalConfigResourcesFolder<T>.instance != null; }
+            get { return instance != null; }
         }
 
         /// <summary>
@@ -74,11 +74,11 @@ namespace Sirenix.Utilities {
         /// </summary>
         public static T Instance {
             get {
-                if (GlobalConfigResourcesFolder<T>.instance == null) {
+                if (instance == null) {
 
-                    GlobalConfigResourcesFolder<T>.LoadInstanceIfAssetExists();
+                    LoadInstanceIfAssetExists();
 
-                    T inst = GlobalConfigResourcesFolder<T>.instance;
+                    T inst = instance;
 
 #if UNITY_EDITOR
                     string fullPath = Application.dataPath + "/" + ConfigAttribute.AssetPath + typeof(T).GetNiceName() +
@@ -88,8 +88,8 @@ namespace Sirenix.Utilities {
                         Debug.LogWarning(ConfigAttribute.AssetPath + typeof(T).GetNiceName() + ".asset" +
                                          " was prevented from being generated because the PREVENT_SIRENIX_FILE_GENERATION key was defined in Unity's EditorPrefs.");
 
-                        GlobalConfigResourcesFolder<T>.instance = ScriptableObject.CreateInstance<T>();
-                        return GlobalConfigResourcesFolder<T>.instance;
+                        instance = CreateInstance<T>();
+                        return instance;
                     }
 
                     if (inst == null) {
@@ -99,8 +99,8 @@ namespace Sirenix.Utilities {
                                 Debug.Log(
                                     "Could not load config asset at first, but successfully detected forced text asset serialization, and corrected the config asset m_Script guid.");
 
-                                GlobalConfigResourcesFolder<T>.LoadInstanceIfAssetExists();
-                                inst = GlobalConfigResourcesFolder<T>.instance;
+                                LoadInstanceIfAssetExists();
+                                inst = instance;
                             }
                             else {
                                 Debug.LogWarning(
@@ -111,7 +111,8 @@ namespace Sirenix.Utilities {
 #endif
 
                     if (inst == null) {
-                        inst = ScriptableObject.CreateInstance<T>();
+                        instance = CreateInstance<T>();
+                        inst = instance;
 
 #if UNITY_EDITOR
 
@@ -141,10 +142,10 @@ namespace Sirenix.Utilities {
 #endif
                     }
 
-                    GlobalConfigResourcesFolder<T>.instance = inst;
+                    instance = inst;
                 }
 
-                return GlobalConfigResourcesFolder<T>.instance;
+                return instance;
             }
         }
 
@@ -153,23 +154,23 @@ namespace Sirenix.Utilities {
         /// </summary>
         private static void LoadInstanceIfAssetExists() {
 
-            //Debug.Log("ConfigAttribute.AssetPath " + ConfigAttribute.AssetPath);
-            //Debug.Log("LoadInstanceIfAssetExists " + ConfigAttribute.IsInResourcesFolder);
-            //Debug.Log("niceName " + typeof(T).GetNiceName());
-            //Debug.Log("GetResourcesPath(ConfigAttribute.AssetPath) + niceName " + GetResourcesPath(ConfigAttribute.AssetPath) + typeof(T).GetNiceName());
+//            Debug.Log("ConfigAttribute.AssetPath " + ConfigAttribute.AssetPath);
+//            Debug.Log("LoadInstanceIfAssetExists " + ConfigAttribute.IsInResourcesFolder);
+//            Debug.Log("niceName " + typeof(T).GetNiceName());
+//            Debug.Log("GetResourcesPath(ConfigAttribute.AssetPath) + niceName " + GetResourcesPath(ConfigAttribute.AssetPath) + typeof(T).GetNiceName());
 
             string niceName = typeof(T).GetNiceName();
 
-            GlobalConfigResourcesFolder<T>.instance =
-                Resources.Load<T>(GetResourcesPath(ConfigAttribute.AssetPath) + niceName);
+            instance = Resources.Load<T>(GetResourcesPath(ConfigAttribute.AssetPath) + niceName);
+
 #if UNITY_EDITOR
 
             // If it was relocated
-            if (GlobalConfigResourcesFolder<T>.instance == null) {
+            if (instance == null) {
                 var relocatedScriptableObject = UnityEditor.AssetDatabase.FindAssets("t:" + typeof(T).Name);
 
                 if (relocatedScriptableObject.Length > 0) {
-                    GlobalConfigResourcesFolder<T>.instance =
+                    instance =
                         UnityEditor.AssetDatabase.LoadAssetAtPath<T>(
                             UnityEditor.AssetDatabase.GUIDToAssetPath(relocatedScriptableObject[0]));
                 }
