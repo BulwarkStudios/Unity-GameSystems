@@ -1,0 +1,35 @@
+﻿.body {
+	padding: 5px;
+	font-size: 100%;
+	
+}
+
+.system-container {
+	margin: 5px;
+	padding: 5px;
+}
+
+.title {
+	padding: 0px 0px 5px 0px;
+	font-size: 140%;
+	-unity-font-style: bold;
+}
+
+.button-container {
+	flex-direction: row;
+}
+
+.button-container Button {
+	height: 35px;
+	width: 100px;
+}
+
+.button-container-all {
+	flex-direction: row;
+	align-self: center;
+}
+
+.button-container-all Button {
+	height: 35px;
+	width: 100px;
+}

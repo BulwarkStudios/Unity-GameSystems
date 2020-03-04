@@ -1,0 +1,17 @@
+{
+    "name": "BulwarkStudios.GameSystems.Editor",
+    "references": [
+        "GUID:08336f91411a4db4ba5dba4fc1e818fb"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
