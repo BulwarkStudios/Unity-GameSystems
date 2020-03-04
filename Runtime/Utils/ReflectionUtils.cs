@@ -41,7 +41,7 @@ namespace BulwarkStudios.GameSystems.Utils {
             if (type.IsGenericType) {
                 GetDerivedFromGeneric(types, type, results);
             }
-            else { 
+            else {
                 GetDerivedFromNonGeneric(types, type, results);
             }
         }

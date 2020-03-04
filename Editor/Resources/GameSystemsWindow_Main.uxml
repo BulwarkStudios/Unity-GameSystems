@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<UXML
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="UnityEngine.UIElements"
+  xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+  xsi:schemaLocation="UnityEngine.UIElements ../UIElementsSchema/UnityEngine.UIElements.xsd">
+
+  <VisualElement class="body">
+
+    <Box class="system-container system-context">
+      <TextElement class="title" text="Game System Contexts"></TextElement>
+      <VisualElement class="button-container">
+        <Button name="button-context-scan" text="Scan"></Button>
+        <Button name="button-context-explore" text="Explore"></Button>
+      </VisualElement>
+    </Box>
+
+    <Box class="system-container system-event">
+      <TextElement class="title" text="Game System Events"></TextElement>
+      <VisualElement class="button-container">
+        <Button name="button-event-scan" text="Scan"></Button>
+        <Button name="button-event-explore" text="Explore"></Button>
+      </VisualElement>
+    </Box>
+
+    <Box class="system-container system-library">
+      <TextElement class="title" text="Game System Libraries"></TextElement>
+      <VisualElement class="button-container">
+        <Button name="button-library-scan" text="Scan"></Button>
+        <Button name="button-library-explore" text="Explore"></Button>
+      </VisualElement>
+    </Box>
+
+    <Box class="system-container system-library">
+    <VisualElement class="button-container-all">
+      <Button name="button-all-scan" text="Scan All"></Button>
+    </VisualElement>
+    </Box>
+
+  </VisualElement>
+
+
+</UXML>

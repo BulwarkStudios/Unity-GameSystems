@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using BulwarkStudios.GameSystems.Logs;
 using BulwarkStudios.GameSystems.Utils;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -29,6 +29,8 @@ namespace BulwarkStudios.GameSystems.Events {
         /// </summary>
         [ReadOnly, ShowInInspector]
         private bool initialized;
+
+        private static string log;
 
 #if UNITY_EDITOR
 
@@ -59,57 +61,70 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <summary>
         /// When the compiler has ended clear data
         /// </summary>
-        [UnityEditor.Callbacks.DidReloadScripts(-50)]
-        private static void OnScriptsReloaded() {
+        [Button("Scan", ButtonSizes.Medium)]
+        public static void Scan() {
 
-            EditorApplication.delayCall += () => {
-                EditorApplication.delayCall += () => {
+            log = "Scan Game System Events in project...\n";
 
-                    List<ScriptableObject> data = new List<ScriptableObject>();
+            List<ScriptableObject> data = new List<ScriptableObject>();
 
-                    var dataChanged = false;
+            bool dataChanged = false;
 
-                    dataChanged = CheckEventType(typeof(GameEvent<>), data) || dataChanged;
-                    dataChanged = CheckEventType(typeof(GameEvent<,>), data) || dataChanged;
-                    dataChanged = CheckEventType(typeof(GameEvent<,,>), data) || dataChanged;
-                    dataChanged = CheckEventType(typeof(GameEvent<,,,>), data) || dataChanged;
-                    dataChanged = CheckEventType(typeof(GameEvent<,,,,>), data) || dataChanged;
+            // Clean available
+            for (int i = Instance.availableEvents.Count - 1; i >= 0; i--) {
+                if (Instance.availableEvents[i] == null) {
+                    Instance.availableEvents.RemoveAt(i);
+                    log += "Clean a null object in the available list.\n";
+                }
+            }
 
-                    if (dataChanged) {
-                        Instance.availableEvents = data;
-                        EditorUtility.SetDirty(Instance);
-                        AssetDatabase.SaveAssets();
+            Instance.availableEvents = Instance.availableEvents.Distinct().ToList();
+
+            dataChanged = CheckEventType(typeof(GameEvent<>), data) || dataChanged;
+            dataChanged = CheckEventType(typeof(GameEvent<,>), data) || dataChanged;
+            dataChanged = CheckEventType(typeof(GameEvent<,,>), data) || dataChanged;
+            dataChanged = CheckEventType(typeof(GameEvent<,,,>), data) || dataChanged;
+            dataChanged = CheckEventType(typeof(GameEvent<,,,,>), data) || dataChanged;
+
+            // Remove deleted events
+            string gameEventsAssetFolder = "Assets/" + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER;
+
+            if (Directory.Exists(gameEventsAssetFolder)) {
+
+                string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
+                    gameEventsAssetFolder
+                });
+
+                // Loop on all scriptable objects
+                for (int i = 0; i < guidsAssets1.Length; i++) {
+
+                    string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
+                    UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+
+                    // Check if errors 
+                    if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
+                        string.IsNullOrEmpty(sObj.GetType().ToString()) ||
+                        sObj.GetType() == typeof(UnityEngine.Object)) {
+
+                        log += "An event has been deleted guid: " + guidsAssets1[i] + " path: " + path +
+                               " object: " + sObj + "\n";
+
+                        AssetDatabase.DeleteAsset(path);
+                        dataChanged = true;
                     }
+                }
+            }
 
-                    // Remove deleted events
-                    var gameEventsAssetFolder = "Assets/" + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER;
-                    if (Directory.Exists(gameEventsAssetFolder)) {
+            if (dataChanged) {
+                Instance.availableEvents = data;
+                EditorUtility.SetDirty(Instance);
+                AssetDatabase.SaveAssets();
+            }
 
-                        string[] guidsAssets1 = AssetDatabase.FindAssets("t:" + typeof(System.Object).Name, new[] {
-                            gameEventsAssetFolder
-                        });
+            log += "Scan done.\n";
 
-                        // Loop on all scriptable objects
-                        for (int i = 0; i < guidsAssets1.Length; i++) {
+            Debug.Log(log);
 
-                            string path = AssetDatabase.GUIDToAssetPath(guidsAssets1[i]);
-                            UnityEngine.Object sObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
-
-                            // Check if errors 
-                            if (string.IsNullOrEmpty(guidsAssets1[i]) || string.IsNullOrEmpty(path) || sObj == null ||
-                                string.IsNullOrEmpty(sObj.GetType().ToString()) ||
-                                sObj.GetType() == typeof(UnityEngine.Object)) {
-
-                                Debug.LogError("An event has been deleted guid: " + guidsAssets1[i] + " path: " + path +
-                                               " object: " + sObj);
-
-                                AssetDatabase.DeleteAsset(path);
-                            }
-                        }
-                    }
-
-                }; // End of delay call
-            }; // End delay call
         }
 
         /// <summary>
@@ -118,7 +133,7 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <param name="eventType"></param>
         private static bool CheckEventType(Type eventType, List<ScriptableObject> data) {
 
-            var dataChanged = false;
+            bool dataChanged = false;
 
             // Check all context and create events
             foreach (Type type in ReflectionUtils.ListAllDerivedTypes(eventType)) {
@@ -133,8 +148,9 @@ namespace BulwarkStudios.GameSystems.Events {
 
                 // Type already here
                 bool alreadyAdded = false;
+
                 foreach (ScriptableObject so in Instance.availableEvents) {
-                     
+
                     if (so == null) {
                         continue;
                     }
@@ -142,6 +158,7 @@ namespace BulwarkStudios.GameSystems.Events {
                     if (so.GetType() == type) {
                         alreadyAdded = true;
                         data.Add(so);
+                        log += "The event " + so.name + " is already in the list.\n";
                         break;
                     }
                 }
@@ -150,19 +167,26 @@ namespace BulwarkStudios.GameSystems.Events {
 
                     // File already created?
                     string[] guids = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject).Name, new[] {
-                        "Assets" + Path.DirectorySeparatorChar + GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
+                        "Assets" + Path.DirectorySeparatorChar +
+                        GameEventConstants.RESOURCE_GAMESYSTEM_EVENT_LIST_FOLDER
                     });
 
                     // Check file names
                     foreach (string guid in guids) {
                         string p = AssetDatabase.GUIDToAssetPath(guid);
                         ScriptableObject sObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(p);
+
                         if (sObj == null || !sObj.name.Contains(type.Name)) {
                             continue;
                         }
 
-                        GameLogSystem.Info("File already exist: " + sObj, GameEventConstants.LOG_TAG);
-                        data.Add(sObj);
+                        log += "File already exist: " + sObj + " Added?: " + !ContainsFile(sObj.name) + "\n";
+
+                        if (!ContainsFile(sObj.name)) {
+                            data.Add(sObj);
+                            dataChanged = true;
+                        }
+
                         alreadyAdded = true;
                         break;
                     }
@@ -173,17 +197,40 @@ namespace BulwarkStudios.GameSystems.Events {
                     continue;
                 }
 
-                MethodInfo method = type.GetMethod("EditorInitialize", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo method = type.GetMethod("EditorInitialize",
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
                 // Add context
                 if (method != null) {
                     object context = method.Invoke(null, null);
                     data.Add(context as ScriptableObject);
                     dataChanged = true;
+
+                    log += "New type added: " + context.GetType() + "\n";
                 }
             }
 
             return dataChanged;
+        }
+        
+        /// <summary>
+        /// Available data contains the file?
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private static bool ContainsFile(string file) {
+
+            foreach (ScriptableObject so in Instance.availableEvents) {
+                if (so == null) {
+                    continue;
+                }
+                if (file.Equals(so.name)) {
+                    return true;
+                }
+            }
+
+            return false;
+
         }
 
 #endif
