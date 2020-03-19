@@ -48,6 +48,12 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <param name="callback"></param>
         public static GameEventData Listen(object listener, System.Action<P1, P2, P3, P4> callback) {
 
+#if UNITY_EDITOR
+            if (!Application.isPlaying) {
+                return new GameEventData4<P1, P2, P3, P4>(listener, callback);
+            }
+#endif
+
             GameEventData4<P1, P2, P3, P4> data = new GameEventData4<P1, P2, P3, P4>(listener, callback);
             Instance.events.Add(data);
             return data;
@@ -60,6 +66,12 @@ namespace BulwarkStudios.GameSystems.Events {
         /// <param name="listener"></param>
         /// <param name="callback"></param>
         public static void Unlisten(object listener, System.Action<P1, P2, P3, P4> callback) {
+
+#if UNITY_EDITOR
+            if (!Application.isPlaying) {
+                return;
+            }
+#endif
 
             for (int i = Instance.events.Count - 1; i >= 0; i--) {
 
