@@ -3,6 +3,9 @@ using BulwarkStudios.GameSystems.Logs;
 using BulwarkStudios.GameSystems.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace BulwarkStudios.GameSystems.Events {
 
@@ -49,7 +52,7 @@ namespace BulwarkStudios.GameSystems.Events {
         public static GameEventData Listen(object listener, System.Action<P1, P2, P3> callback) {
 
 #if UNITY_EDITOR
-            if (!Application.isPlaying) {
+            if (!Application.isPlaying || (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)) {
                 return new GameEventData3<P1, P2, P3>(listener, callback);
             }
 #endif
