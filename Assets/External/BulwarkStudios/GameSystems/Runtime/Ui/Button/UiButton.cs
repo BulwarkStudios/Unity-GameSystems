@@ -226,7 +226,7 @@ namespace BulwarkStudios.GameSystems.Ui {
         /// <summary>
         /// Refresh the button state
         /// </summary>
-        public void RefreshButtonState() {
+        public void RefreshButtonState(bool force = false) {
 
             // Valid?
             bool isValid = ConstraintsValid();
@@ -237,7 +237,7 @@ namespace BulwarkStudios.GameSystems.Ui {
             }
 
             // No change
-            if (Selectable.interactable == isValid) {
+            if (!force && Selectable.interactable == isValid) {
                 return;
             }
 
@@ -286,7 +286,7 @@ namespace BulwarkStudios.GameSystems.Ui {
             // Cancel?
             if (newState == null) {
                 overridedState = false;
-                RefreshButtonState();
+                RefreshButtonState(true);
                 return;
             }
 
@@ -385,14 +385,14 @@ namespace BulwarkStudios.GameSystems.Ui {
             // Reset
             if (value == null) {
                 overridedInteractable = false;
-                RefreshButtonState();
+                RefreshButtonState(true);
                 return;
             }
 
             // Override
             overridedInteractable = true;
             Selectable.interactable = value.Value;
-            RefreshButtonState();
+            RefreshButtonState(true);
 
         }
 
