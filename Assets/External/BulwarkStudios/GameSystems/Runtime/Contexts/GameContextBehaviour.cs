@@ -19,6 +19,11 @@
         /// </summary>
         public abstract void RemoveLayer();
 
+        /// <summary>
+        /// Context clear
+        /// </summary>
+        public virtual void Clear(){}
+
     }
 
 }

@@ -88,6 +88,19 @@ namespace BulwarkStudios.GameSystems.Events {
         }
 
         /// <summary>
+        /// Unlisten all events
+        /// </summary>
+        public static void UnlistenAll() {
+
+            if (!Instance.deactiveLogs) {
+                GameLogSystem.Info("Event unlisten all: " + Instance, GameEventConstants.LOG_TAG);
+            }
+
+            Instance.events.Clear();
+
+        }
+
+        /// <summary>
         /// Trigger the event
         /// </summary>
         [Button]
@@ -141,6 +154,13 @@ namespace BulwarkStudios.GameSystems.Events {
         /// </summary>
         void IGameEvent.Trigger() {
             Trigger(default(P1), default(P2), default(P3));
+        }
+
+        /// <summary>
+        /// Unlisten all events
+        /// </summary>
+        void IGameEvent.UnlistenAll() {
+            UnlistenAll();
         }
 
         #endregion

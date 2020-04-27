@@ -134,6 +134,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
                 case PlayModeStateChange.ExitingPlayMode:
                     Instance.initialized = false;
                     ResetContexts(false);
+                    Clear();
                     break;
             }
 
@@ -457,6 +458,20 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
             // Update context
             OnUpdateContext?.Invoke();
+
+        }
+
+        /// <summary>
+        /// Clear contexts
+        /// </summary>
+        public static void Clear() {
+
+            foreach (ScriptableObject context in Instance.availableContexts) {
+                
+                IGameContext gContext = context as IGameContext;
+                gContext?.Clear();
+
+            }
 
         }
 

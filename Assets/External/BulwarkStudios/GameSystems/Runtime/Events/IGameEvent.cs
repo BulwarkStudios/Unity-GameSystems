@@ -14,6 +14,11 @@
         void Unlisten(object listener);
 
         /// <summary>
+        /// Unlisten all events
+        /// </summary>
+        void UnlistenAll();
+
+        /// <summary>
         /// Trigger
         /// </summary>
         void Trigger();

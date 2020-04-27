@@ -27,6 +27,11 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         void RemoveLayer();
 
+        /// <summary>
+        /// Clear the context
+        /// </summary>
+        void Clear();
+
     }
 
 }
