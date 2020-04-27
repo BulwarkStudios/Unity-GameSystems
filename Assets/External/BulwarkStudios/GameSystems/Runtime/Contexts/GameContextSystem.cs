@@ -133,6 +133,7 @@ namespace BulwarkStudios.GameSystems.Contexts {
             switch (mode) {
                 case PlayModeStateChange.ExitingPlayMode:
                     Instance.initialized = false;
+                    OnUpdateContext = null;
                     ResetContexts(false);
                     Clear();
                     break;
