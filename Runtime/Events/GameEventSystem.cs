@@ -53,6 +53,8 @@ namespace BulwarkStudios.GameSystems.Events {
             switch (mode) {
                 case PlayModeStateChange.ExitingPlayMode:
                     Instance.initialized = false;
+                    UnlistenAll();
+                    log = string.Empty;
                     break;
             }
 
@@ -240,6 +242,20 @@ namespace BulwarkStudios.GameSystems.Events {
         /// </summary>
         public static void Load() {
             Instance.Initialize();
+        }
+
+        /// <summary>
+        /// Unlisten all events
+        /// </summary>
+        public static void UnlistenAll() {
+
+            foreach (ScriptableObject sEvent in Instance.availableEvents) {
+                
+                IGameEvent gEvent = sEvent as IGameEvent;
+                gEvent?.UnlistenAll();
+
+            }
+
         }
 
         /// <summary>

@@ -114,6 +114,18 @@ namespace BulwarkStudios.GameSystems.Contexts {
 
         }
 
+        /// <summary>
+        /// Clear the context
+        /// </summary>
+        void IGameContext.Clear() {
+
+            foreach (GameContextBehaviour behaviour in behaviours) {
+                behaviour.Clear();
+            }
+            behaviours.Clear();
+
+        }
+
         #endregion
 
     }
