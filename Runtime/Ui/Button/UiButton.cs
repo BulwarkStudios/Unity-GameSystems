@@ -54,9 +54,7 @@ namespace BulwarkStudios.GameSystems.Ui {
 
     [RequireComponent(typeof(Selectable))]
     public class UiButton : MonoBehaviour, IDeselectHandler, IMoveHandler, IPointerClickHandler, IPointerDownHandler,
-        IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler,
-        IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,
-        IScrollHandler {
+        IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, ISelectHandler, ISubmitHandler {
 
         /// <summary>
         /// Button state
@@ -99,18 +97,6 @@ namespace BulwarkStudios.GameSystems.Ui {
             ON_SELECT,
 
             ON_SUBMIT,
-
-            ON_INITIALIZE_POTENTIAL_DRAG,
-
-            ON_BEGIN_DRAG,
-
-            ON_DRAG,
-
-            ON_END_DRAG,
-
-            ON_DROP,
-
-            ON_SCROLL
 
         }
 
@@ -558,78 +544,6 @@ namespace BulwarkStudios.GameSystems.Ui {
             OnTriggered?.Invoke();
 
             //GameLogSystem.Info("OnSubmit");
-        }
-
-        void IInitializePotentialDragHandler.OnInitializePotentialDrag(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_INITIALIZE_POTENTIAL_DRAG, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnInitializePotentialDrag");
-
-        }
-
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_BEGIN_DRAG, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnBeginDrag");
-
-        }
-
-        void IDragHandler.OnDrag(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_DRAG, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnDrag");
-
-        }
-
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_END_DRAG, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnEndDrag");
-
-        }
-
-        void IDropHandler.OnDrop(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_DROP, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnDrop");
-
-        }
-
-        void IScrollHandler.OnScroll(PointerEventData eventData) {
-
-            OnEventTriggered?.Invoke(this, EVENT.ON_SCROLL, eventData);
-
-            if (!IsInteractable()) {
-                return;
-            }
-
-            //GameLogSystem.Info("OnScroll");
-
         }
 
     }

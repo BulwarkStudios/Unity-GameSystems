@@ -99,56 +99,6 @@ namespace BulwarkStudios.GameSystems.Ui {
          Title("On Submit Disable")]
         private T onSubmitDisable = new T();
 
-        [PropertyOrder(100), SerializeField,
-         ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_INITIALIZE_POTENTIAL_DRAG, false),
-         Title("On Initialize Potential Drag")]
-        private T onInitializePotentialDrag = new T();
-
-        [PropertyOrder(100), SerializeField,
-         ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_INITIALIZE_POTENTIAL_DRAG, false),
-         Title("On Initialize Potential Drag Disable")]
-        private T onInitializePotentialDragDisable = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_BEGIN_DRAG, false),
-         Title("On Begin Drag")]
-        private T onBeginDrag = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_BEGIN_DRAG, false),
-         Title("On Begin Drag Disable")]
-        private T onBeginDragDisable = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_DRAG, false),
-         Title("On Drag")]
-        private T onDrag = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_DRAG, false),
-         Title("On Drag Disable")]
-        private T onDragDisable = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_END_DRAG, false),
-         Title("On End Drag")]
-        private T onEndDrag = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_END_DRAG, false),
-         Title("On End Drag Disable")]
-        private T onEndDragDisable = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_DROP, false),
-         Title("On Drop")]
-        private T onDrop = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_DROP, false),
-         Title("On Drop Disable")]
-        private T onDropDisable = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_SCROLL, false),
-         Title("On Scroll")]
-        private T onScroll = new T();
-
-        [PropertyOrder(100), SerializeField, ShowIf(nameof(GetButtonPreviewEvent), UiButton.EVENT.ON_SCROLL, false),
-         Title("On Scroll Disable")]
-        private T onScrollDisable = new T();
-
         /// <summary>
         /// Enable
         /// </summary>
@@ -232,23 +182,6 @@ namespace BulwarkStudios.GameSystems.Ui {
                     case UiButton.EVENT.ON_SUBMIT:
                         return onSubmit;
 
-                    case UiButton.EVENT.ON_INITIALIZE_POTENTIAL_DRAG:
-                        return onInitializePotentialDrag;
-
-                    case UiButton.EVENT.ON_BEGIN_DRAG:
-                        return onBeginDrag;
-
-                    case UiButton.EVENT.ON_DRAG:
-                        return onDrag;
-
-                    case UiButton.EVENT.ON_END_DRAG:
-                        return onEndDrag;
-
-                    case UiButton.EVENT.ON_DROP:
-                        return onDrop;
-
-                    case UiButton.EVENT.ON_SCROLL:
-                        return onScroll;
                 }
 
                 return onDeselect;
@@ -283,23 +216,6 @@ namespace BulwarkStudios.GameSystems.Ui {
                 case UiButton.EVENT.ON_SUBMIT:
                     return onSubmitDisable;
 
-                case UiButton.EVENT.ON_INITIALIZE_POTENTIAL_DRAG:
-                    return onInitializePotentialDragDisable;
-
-                case UiButton.EVENT.ON_BEGIN_DRAG:
-                    return onBeginDragDisable;
-
-                case UiButton.EVENT.ON_DRAG:
-                    return onDragDisable;
-
-                case UiButton.EVENT.ON_END_DRAG:
-                    return onEndDragDisable;
-
-                case UiButton.EVENT.ON_DROP:
-                    return onDropDisable;
-
-                case UiButton.EVENT.ON_SCROLL:
-                    return onScrollDisable;
             }
 
             return onDeselectDisable;
