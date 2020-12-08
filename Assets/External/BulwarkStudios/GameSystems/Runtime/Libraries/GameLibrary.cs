@@ -9,7 +9,9 @@ namespace BulwarkStudios.GameSystems.Libraries {
         /// </summary>
         public new static T Instance {
             get {
+#if GAMESYSTEMS_AUTO_LOAD
                 GameLibrarySystem.Load();
+#endif
                 return instance;
             }
         }

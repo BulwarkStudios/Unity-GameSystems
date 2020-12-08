@@ -12,7 +12,9 @@ namespace BulwarkStudios.GameSystems.Contexts {
         /// </summary>
         public new static T Instance {
             get {
+#if GAMESYSTEMS_AUTO_LOAD
                 GameContextSystem.Load();
+#endif
                 return instance;
             }
         }
