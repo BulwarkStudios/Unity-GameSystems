@@ -93,6 +93,12 @@ namespace BulwarkStudios.GameSystems.Events {
         /// </summary>
         public static void UnlistenAll() {
 
+#if UNITY_EDITOR
+            if (Instance == null) {
+                return;
+            }
+#endif
+
             if (!Instance.deactiveLogs) {
                 GameLogSystem.Info("Event unlisten all: " + Instance, GameEventConstants.LOG_TAG);
             }
