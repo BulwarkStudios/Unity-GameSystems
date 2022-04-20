@@ -716,6 +716,23 @@ namespace BulwarkStudios.GameSystems.Contexts {
         }
 
         /// <summary>
+        /// Has a context in all layers?
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static bool HasContextInAllLayers([NotNull] IGameContext context) {
+
+            for (int i = 0; i < 8; i++) {
+                if (HasContext(context, i)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        /// <summary>
         /// Get a string containing all contexts
         /// </summary>
         /// <returns></returns>
