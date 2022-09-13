@@ -44,7 +44,7 @@ namespace BulwarkStudios.GameSystems.Events {
         /// List of events
         /// </summary>
         [ShowInInspector, ReadOnly]
-        private List<GameEventData3<P1, P2, P3>> events = new List<GameEventData3<P1, P2, P3>>();
+        protected List<GameEventData3<P1, P2, P3>> events = new List<GameEventData3<P1, P2, P3>>();
 
         /// <summary>
         /// Listen to the event
