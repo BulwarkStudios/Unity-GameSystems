@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using BulwarkStudios.GameSystems.Configs;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace BulwarkStudios.GameSystems.Logs {
         /// Current config
         /// </summary>
         private static ILogConfig config = new LogConfigDefault();
+
+        private static StringBuilder txtLog = new StringBuilder();
 
         /// <summary>
         /// Initialize
@@ -79,9 +82,29 @@ namespace BulwarkStudios.GameSystems.Logs {
                 return;
             }
 
-            // Log
-            config.GetLogger().Log(type, "[" + tag + "]", message, null);
+            txtLog.Clear();
+            txtLog.Append("F");
+            txtLog.Append(Time.frameCount.ToString("D8"));
+            txtLog.Append(" ");
+            txtLog.Append("T");
+            txtLog.Append(ToTimeFormat(Time.realtimeSinceStartup));
+            txtLog.Append(" - [" + tag + "]");
 
+            // Log
+            config.GetLogger().Log(type, txtLog.ToString(), message, null);
+
+        }
+
+        private static string ToTimeFormat(float time) {
+            string ms = (FastFrac(time) * 100).ToString("00");
+            string ss = ((int)time % 60).ToString("00");
+            string mm = ((int)(time / 60) % 60).ToString("00");
+            string hh = ((int)time / 60 / 60).ToString("00");
+            return (hh + ":" + mm + ":" + ss + "." + ms);
+        }
+
+        private static float FastFrac(float v) {
+            return (v - (int)v) % 1;
         }
 
     }

@@ -58,6 +58,8 @@ namespace BulwarkStudios.Tests {
             GameEventTest3.Listen(this, Test3);
             GameEventTest4.Listen(this, Test4);
 
+            Log.Info("test", LogConfigTest.TAG.UI);
+
         }
 
         private void OnDisable() {
@@ -82,6 +84,8 @@ namespace BulwarkStudios.Tests {
         private void NewGame() {
 
             GameContextSystem.SetContext(GameContextNewGame.Instance, GameContextSystem.INDEX.MAIN);
+
+            Log.Info("NewGame", LogConfigTest.TAG.UI);
 
         }
 
