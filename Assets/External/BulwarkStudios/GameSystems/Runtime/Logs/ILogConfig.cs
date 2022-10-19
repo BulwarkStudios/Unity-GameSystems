@@ -21,6 +21,12 @@ namespace BulwarkStudios.GameSystems.Logs {
         /// <returns></returns>
         bool ActiveLog();
 
+        /// <summary>
+        /// Get the main thread
+        /// </summary>
+        /// <returns></returns>
+        System.Threading.Thread GetMainThread();
+
     }
 
 }

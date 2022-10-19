@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using BulwarkStudios.GameSystems.Configs;
 using UnityEngine;
 
@@ -83,12 +84,17 @@ namespace BulwarkStudios.GameSystems.Logs {
             }
 
             txtLog.Clear();
-            txtLog.Append("F");
-            txtLog.Append(Time.frameCount.ToString("D8"));
-            txtLog.Append(" ");
-            txtLog.Append("T");
-            txtLog.Append(ToTimeFormat(Time.realtimeSinceStartup));
-            txtLog.Append(" - [" + tag + "]");
+
+            if (config.GetMainThread() == Thread.CurrentThread) {
+                txtLog.Append("F");
+                txtLog.Append(Time.frameCount.ToString("D8"));
+                txtLog.Append(" ");
+                txtLog.Append("T");
+                txtLog.Append(ToTimeFormat(Time.realtimeSinceStartup));
+                txtLog.Append(" - ");
+            }
+
+            txtLog.Append("[" + tag + "]");
 
             // Log
             config.GetLogger().Log(type, txtLog.ToString(), message, null);

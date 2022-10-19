@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace BulwarkStudios.GameSystems.Logs {
@@ -14,6 +15,11 @@ namespace BulwarkStudios.GameSystems.Logs {
         /// List of available tags
         /// </summary>
         private readonly HashSet<string> availableTags = new HashSet<string>();
+
+        /// <summary>
+        /// Main thread
+        /// </summary>
+        private Thread mainThread = Thread.CurrentThread;
 
         /// <summary>
         /// Initialize
@@ -69,6 +75,14 @@ namespace BulwarkStudios.GameSystems.Logs {
         /// <returns></returns>
         bool ILogConfig.ActiveLog() {
             return ActiveLogs();
+        }
+
+        /// <summary>
+        /// Get the main thread
+        /// </summary>
+        /// <returns></returns>
+        Thread ILogConfig.GetMainThread() {
+            return mainThread;
         }
 
     }

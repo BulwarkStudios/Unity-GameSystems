@@ -1,7 +1,7 @@
 {
     "name": "com.bulwarkstudios.gamesystems",
     "displayName": "Game Systems",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "unity": "2020.1",
     "description": "Unity-GameSystems is a set of tools made to fix and clean design patterns used in the game.",
 	"dependencies": {
